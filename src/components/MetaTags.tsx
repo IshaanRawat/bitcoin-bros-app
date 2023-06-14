@@ -12,7 +12,7 @@ interface MetaTagsProps {
 const TITLE =
   "Bitcoin Bros: The Best PFP collection ever is coming to the Bitcoin Brotherhood";
 const DESCRIPTION =
-  "Paint the most important symbol ever of humanity on the Bitcoin Blockchain. Inscribe a Dick and get free entry to the Bitcoin Brotherhood when the mint begins.";
+  "Paint the most important symbol ever of humanity on the Bitcoin Blockchain. Inscribe a Phallus and get free entry to the Bitcoin Brotherhood when the mint begins.";
 const IMAGE = "https://static.cdn.zo.xyz/media/banner-bb.png";
 
 const MetaTags: React.FC<MetaTagsProps> = ({
