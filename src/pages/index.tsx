@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { MetaTags } from "@/components";
+import { Loading, MetaTags } from "@/components";
 import { useAuth, useWeb3 } from "@/hooks";
 import { Check } from "@/icons";
 import axios from "axios";
@@ -25,47 +25,50 @@ const Home: NextPage = () => {
   const [isTweetSharable, setTweetSharable] = useState<boolean>(false);
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
 
-  const { mutate } = useMutation((data: any) => axios.post("/api/auth", data));
-
-  const { data: userData, refetch: refetchUser } = useQuery(
-    ["me"],
-    () => axios.get("/api/me"),
-    {
-      enabled: isLoggedIn,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
+  const { mutate, isLoading: isLoadingAuth } = useMutation((data: any) =>
+    axios.post("/api/auth", data)
   );
 
-  const { refetch: followBB } = useQuery(
-    ["follow"],
-    () => axios.get("/api/follow"),
-    {
-      enabled: false,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: false,
-      onError: (error: any) => {
-        console.log(error.response);
-        if (error?.response?.status === 429) {
-          setRateLimitExceeded(true);
-        }
-      },
-    }
+  const {
+    data: userData,
+    refetch: refetchUser,
+    isFetching: isFetchingMe,
+    isLoading: isLoadingMe,
+  } = useQuery(["me"], () => axios.get("/api/me"), {
+    enabled: isLoggedIn,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+
+  const {
+    refetch: followBB,
+    isLoading: isLoadingFollow,
+    isFetching: isFetchingFollow,
+  } = useQuery(["follow"], () => axios.get("/api/follow"), {
+    enabled: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: false,
+    onError: (error: any) => {
+      console.log(error.response);
+      if (error?.response?.status === 429) {
+        setRateLimitExceeded(true);
+      }
+    },
+  });
+
+  const { mutate: postBB, isLoading: isLoadingPost } = useMutation(
+    (data: any) => axios.post("/api/post", data)
   );
 
-  const { mutate: postBB } = useMutation((data: any) =>
-    axios.post("/api/post", data)
-  );
-
-  const { refetch: connectTwitter } = useQuery(
-    ["twitter", "auth"],
-    () => axios.post("/api/twitter/auth"),
-    {
-      enabled: false,
-    }
-  );
+  const {
+    refetch: connectTwitter,
+    isLoading: isLoadingTwitterAuth,
+    isFetching: isFetchingTwitterAuth,
+  } = useQuery(["twitter", "auth"], () => axios.post("/api/twitter/auth"), {
+    enabled: false,
+  });
 
   const connect = async () => {
     const data = await connectTwitter();
@@ -352,6 +355,13 @@ const Home: NextPage = () => {
             )}
       </section>
       <footer className="h-16 flex-shrink-0 relative"></footer>
+      {(isLoadingAuth ||
+        isLoadingFollow ||
+        isLoadingPost ||
+        isLoadingTwitterAuth ||
+        isFetchingFollow ||
+        isFetchingMe ||
+        isFetchingTwitterAuth) && <Loading />}
     </main>
   );
 };
