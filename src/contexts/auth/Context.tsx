@@ -8,7 +8,7 @@ export const EMPTY = {
 
 interface AuthContextInterface {
   isLoggedIn: boolean;
-  login: (token: string, tokenExpiry: string, user: User) => void;
+  login: (token: string, tokenExpiry: string, user: GeneralObject) => void;
   logout: () => void;
 }
 
