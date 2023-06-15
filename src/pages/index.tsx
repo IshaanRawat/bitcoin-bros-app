@@ -6,7 +6,7 @@ import axios from "axios";
 import { NextPage } from "next";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import tweets from "./../config/tweetMessages.json";
 
@@ -21,6 +21,8 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 const Home: NextPage = () => {
   const { openConnectModal, address } = useWeb3();
   const { login, isLoggedIn } = useAuth();
+
+  const backgroundVideoRef = useRef<HTMLVideoElement>(null);
 
   const [isTweetSharable, setTweetSharable] = useState<boolean>(false);
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
@@ -104,6 +106,16 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
+    document.onclick = () => {
+      if (backgroundVideoRef.current) {
+        if (backgroundVideoRef.current.paused) {
+          backgroundVideoRef.current.play();
+        }
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (
       userData?.data &&
       (isRateLimitExceeded ||
@@ -139,10 +151,13 @@ const Home: NextPage = () => {
     >
       <MetaTags />
       <video
+        ref={backgroundVideoRef}
         autoPlay
         loop
+        controls={false}
+        playsInline
         muted
-        className="fixed z-0 inset-0 w-full h-full bg-[#06041e] object-bottom landscape:object-center"
+        className="fixed z-0 inset-0 w-full h-full bg-[#06041e] object-bottom landscape:object-center pointer-events-none"
       >
         <source
           src="https://cdn.discordapp.com/attachments/1115714210308050954/1118238055040553001/bikers_loop_06_1.mp4"
