@@ -22,12 +22,12 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
         className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
         onClick={close}
       ></div>
-      <div className="bg-zinc-900 relative p-8 rounded-md">
+      <div className="bg-zinc-900 relative p-4 lg:p-8 rounded-md">
         <h2 className="text-2xl font-bold">Connect Wallet</h2>
         <p className="text-gray-500 mt-2">
           Connect your wallet to start your Bitcoin Bros journey.
         </p>
-        <div className="flex flex-col mt-8 space-y-4">
+        <div className="flex flex-col mt-4 lg:mt-8 space-y-2 lg:space-y-4">
           <button
             onClick={connectWallet.bind(null, "Hiro")}
             disabled={
@@ -108,7 +108,7 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
         typeof window.btc === "undefined" &&
         typeof window.BitcoinProvider === "undefined" &&
         typeof window.HiroWalletProvider === "undefined" ? (
-          <p className="text-red-500 mt-8">
+          <p className="text-red-500 mt-4 lg:mt-8">
             Please install at least one wallet to continue.
           </p>
         ) : null}

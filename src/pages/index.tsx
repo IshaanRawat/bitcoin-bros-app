@@ -135,7 +135,7 @@ const Home: NextPage = () => {
 
   return (
     <main
-      className={`flex flex-col justify-between bg-black min-h-screen w-screen p-8 ${spaceGrotesk.className}`}
+      className={`flex flex-col justify-between bg-black min-h-screen w-screen p-4 lg:p-8 ${spaceGrotesk.className}`}
     >
       <MetaTags />
       <video
@@ -162,7 +162,7 @@ const Home: NextPage = () => {
         <p className="text-lg text-zinc-300 mt-8">Join the whitelist.</p>
         <div className="mt-4 flex flex-col space-y-1 w-full">
           {isLoggedIn && userData?.data.walletAddress ? (
-            <div className="py-4 px-8 flex bg-zinc-900 items-center justify-between">
+            <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
               <div className="flex items-center space-x-4">
                 <img
                   src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
@@ -178,7 +178,7 @@ const Home: NextPage = () => {
             </div>
           ) : (
             <button
-              className="bg-zinc-100 py-4 px-8 flex items-center"
+              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center"
               onClick={openConnectModal}
             >
               <img
@@ -192,7 +192,7 @@ const Home: NextPage = () => {
             </button>
           )}
           {isLoggedIn && userData?.data.twitterUser ? (
-            <div className="py-4 px-8 flex bg-zinc-900 items-center justify-between">
+            <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
               <div className="flex items-center space-x-4">
                 <img
                   src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
@@ -207,7 +207,7 @@ const Home: NextPage = () => {
             </div>
           ) : (
             <button
-              className="bg-zinc-100 py-4 px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-50"
+              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-50"
               disabled={!userData?.data.walletAddress}
               onClick={connect}
             >
@@ -221,7 +221,7 @@ const Home: NextPage = () => {
           )}
           {isLoggedIn ? (
             userData?.data.isFollowing ? (
-              <div className="py-4 px-8 flex bg-zinc-900 items-center justify-between">
+              <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <img
                     src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
@@ -236,7 +236,7 @@ const Home: NextPage = () => {
               </div>
             ) : isRateLimitExceeded ? null : (
               <button
-                className="bg-zinc-100 py-4 px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
+                className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
                 onClick={follow}
                 disabled={!userData?.data?.twitterUser}
               >
@@ -252,7 +252,7 @@ const Home: NextPage = () => {
             )
           ) : (
             <button
-              className="bg-zinc-100 py-4 px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
+              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
               disabled={
                 !userData?.data.walletAddress || !userData?.data.twitterUser
               }
@@ -271,7 +271,7 @@ const Home: NextPage = () => {
 
           {isLoggedIn ? (
             userData?.data.isFollowing ? (
-              <div className="py-4 px-8 flex bg-[#CFFF50] items-center justify-between">
+              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <Check fill="#18181b" />
                   <span className="font-medium text-zinc-900">
@@ -280,7 +280,7 @@ const Home: NextPage = () => {
                 </div>
               </div>
             ) : isRateLimitExceeded ? (
-              <div className="py-4 px-8 flex bg-[#CFFF50] items-center justify-between">
+              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <Check fill="#18181b" />
                   <span className="font-medium text-zinc-900">
@@ -312,7 +312,7 @@ const Home: NextPage = () => {
                 </div>
                 <>
                   <button
-                    className="bg-blue-400 max-w-md w-full py-4 px-8 mt-4 font-medium"
+                    className="bg-blue-400 max-w-md w-full py-4 px-4 lg:px-8 mt-4 font-medium"
                     onClick={post}
                   >
                     Share Tweet
@@ -344,7 +344,7 @@ const Home: NextPage = () => {
               </>
             )
           : userData?.data?.isWhitelistPostShared && (
-              <div className="py-4 px-8 mt-8 flex bg-[#CFFF50] items-center justify-between">
+              <div className="py-4 px-4 lg:px-8 mt-8 flex bg-[#CFFF50] items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <Check fill="#18181b" />
                   <span className="font-medium text-zinc-900">
