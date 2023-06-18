@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Loading, MetaTags } from "@/components";
 import { useAuth, useWeb3 } from "@/hooks";
-import { Check } from "@/icons";
+import { Check, SignOut } from "@/icons";
 import axios from "axios";
 import { NextPage } from "next";
 import { Space_Grotesk } from "next/font/google";
@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
 const Home: NextPage = () => {
   const { openConnectModal, address } = useWeb3();
-  const { login, isLoggedIn } = useAuth();
+  const { login, isLoggedIn, logout } = useAuth();
 
   const backgroundVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -167,16 +167,37 @@ const Home: NextPage = () => {
           type="video/mp4"
         />
       </video>
-      <header className="flex-shrink-0 sticky top-8 left-8">
+      <header className="flex-shrink-0 sticky top-8 left-8 right-8 flex justify-between">
         <Image
           src="https://static.cdn.zo.xyz/app-media/animojis/zobitcoin.gif"
           alt="zo"
           width={48}
           height={48}
         />
+        {isLoggedIn && userData?.data.walletAddress ? (
+          <div className="flex items-center space-x-4">
+            <img
+              src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
+              className="w-6 h-6"
+              alt="bitcoin"
+            />
+            <span className="font-medium text-zinc-50">
+              {userData.data.walletAddress.slice(0, 6)}...
+              {userData.data.walletAddress.slice(-4)}
+            </span>
+            <button
+              className="w-8 h-8 flex items-center justify-center hover:bg-zinc-600 rounded-full"
+              onClick={logout}
+            >
+              <SignOut className="w-6 h-6 fill-red-500" />
+            </button>
+          </div>
+        ) : null}
       </header>
       <section className="flex-1 mt-24 flex max-w-md w-full flex-col relative">
-        <h1 className="text-6xl font-bold text-zinc-100">Bitcoin Bros</h1>
+        <h1 className="text-4xl lg:text-6xl font-bold text-zinc-100">
+          Bitcoin Bros
+        </h1>
         {!(
           !isOnboarding &&
           userData?.data.walletAddress &&
