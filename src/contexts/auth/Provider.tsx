@@ -14,7 +14,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const localToken = localStorage.getItem("bb-token");
+    const token = params.get("token") || localToken;
 
     if (token) {
       login(token);
@@ -24,7 +25,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = useCallback(async () => {
     setLoggedIn(false);
 
-    sessionStorage.clear();
+    localStorage.clear();
 
     const customAxiosHeaders = axios.defaults.headers;
     delete customAxiosHeaders.Authorization;
@@ -38,6 +39,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       Authorization: `Bearer ${token}`,
     };
 
+    localStorage.setItem("bb-token", token);
     axios.defaults.headers = customAxiosHeaders;
     setLoggedIn(true);
   };
