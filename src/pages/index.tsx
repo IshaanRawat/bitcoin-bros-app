@@ -82,6 +82,7 @@ const Home: NextPage = () => {
   };
 
   const follow = async () => {
+    setOnboarding(true);
     const data = await followBB();
     if (data.data?.data.success) {
       refetchUser();
