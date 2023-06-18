@@ -25,3 +25,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+body,
+html,
+main {
+  height: 100vh;
+  max-height: -webkit-fill-available;
+}
+
+#header.is-pinned {
+  background-color: red;
+}
