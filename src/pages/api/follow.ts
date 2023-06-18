@@ -19,8 +19,12 @@ export default async function handler(
 
   if (token === undefined) return res.status(401).send("Unauthorized");
 
-  // decode token
-  const decoded = jwt.verify(token, config.JWT_SECRET) as GeneralObject;
+  let decoded;
+  try {
+    decoded = jwt.verify(token, config.JWT_SECRET) as GeneralObject;
+  } catch (error) {
+    return res.status(401).send({ error: "Auth Token expired" });
+  }
 
   let user;
   try {
