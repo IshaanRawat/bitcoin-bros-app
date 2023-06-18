@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, {
   PropsWithChildren,
   useCallback,
@@ -10,6 +11,7 @@ import AuthContext from "./Context";
 interface AuthProviderProps extends PropsWithChildren {}
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const router = useRouter();
   const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token) {
       login(token);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logout = useCallback(async () => {
@@ -41,6 +44,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     localStorage.setItem("bb-token", token);
     axios.defaults.headers = customAxiosHeaders;
+    axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          logout();
+          router.push("/");
+        }
+        return Promise.reject(error);
+      }
+    );
+    router.push("/");
     setLoggedIn(true);
   };
 
