@@ -15,14 +15,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     user = await db.collection("users").findOne({ walletAddress });
 
     if (!user) {
-      const result = await db
-        .collection("users")
-        .insertOne({
-          walletAddress,
-          isWhitelisted: false,
-          isFollowing: false,
-          isWhitelistPostShared: false,
-        });
+      const result = await db.collection("users").insertOne({
+        walletAddress,
+        isWhitelisted: false,
+        isFollowing: false,
+        isWhitelistPostShared: false,
+      });
       user = { _id: result.insertedId, walletAddress };
     }
   } catch (err) {
@@ -34,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     { userId: user._id.toString(), walletAddress: user.walletAddress },
     config.JWT_SECRET,
     {
-      expiresIn: "1h",
+      expiresIn: "24h",
     }
   );
 
