@@ -150,7 +150,7 @@ const Home: NextPage = () => {
 
   return (
     <main
-      className={`flex flex-col justify-between bg-black min-h-screen w-screen p-4 lg:p-8 ${spaceGrotesk.className}`}
+      className={`flex flex-col justify-between bg-black h-screen overflow-hidden w-screen ${spaceGrotesk.className}`}
     >
       <MetaTags />
       <video
@@ -167,7 +167,7 @@ const Home: NextPage = () => {
           type="video/mp4"
         />
       </video>
-      <header className="flex-shrink-0 sticky top-8 left-8 right-8 flex justify-between">
+      <header className="flex-shrink-0 p-4 lg:p-8 relative flex justify-between pointer-events-none">
         <Image
           src="https://static.cdn.zo.xyz/app-media/animojis/zobitcoin.gif"
           alt="zo"
@@ -175,7 +175,7 @@ const Home: NextPage = () => {
           height={48}
         />
         {isLoggedIn && userData?.data.walletAddress ? (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 pointer-events-auto">
             <img
               src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
               className="w-6 h-6"
@@ -194,101 +194,122 @@ const Home: NextPage = () => {
           </div>
         ) : null}
       </header>
-      <section className="flex-1 mt-24 flex max-w-md w-full flex-col relative">
-        <h1 className="text-4xl lg:text-6xl font-bold text-zinc-100">
-          Bitcoin Bros
-        </h1>
-        {!(
-          !isOnboarding &&
-          userData?.data.walletAddress &&
-          userData?.data.twitterUser &&
-          userData?.data.isFollowing
-        ) && <p className="text-lg text-zinc-300 mt-8">Join the whitelist.</p>}
-        <div className="mt-4 flex flex-col space-y-1 w-full">
-          {isLoggedIn && userData?.data.walletAddress ? (
-            isOnboarding && (
-              <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <img
-                    src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
-                    className="w-6 h-6 mr-4"
-                    alt="bitcoin"
-                  />
-                  <span className="font-medium text-zinc-50">
-                    {userData.data.walletAddress.slice(0, 6)}...
-                    {userData.data.walletAddress.slice(-4)}
-                  </span>
-                </div>
-                <Check />
-              </div>
-            )
-          ) : (
-            <button
-              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center"
-              onClick={openConnectModal}
-            >
-              <img
-                src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
-                className="w-6 h-6 mr-4"
-                alt="bitcoin"
-              />
-              <span className="font-medium text-black">
-                Connect Bitcoin Ordinals Wallet
-              </span>
-            </button>
+      <section className="flex-1 pt-[140px] lg:pt-[140px] p-4 lg:p-8 flex overflow-y-auto flex-col relative">
+        <div className="flex flex-col max-w-md w-full">
+          <h1 className="text-4xl lg:text-6xl font-bold text-zinc-100">
+            Bitcoin Bros
+          </h1>
+          {!(
+            !isOnboarding &&
+            userData?.data.walletAddress &&
+            userData?.data.twitterUser &&
+            userData?.data.isFollowing
+          ) && (
+            <p className="text-lg text-zinc-300 mt-8">Join the whitelist.</p>
           )}
-          {isLoggedIn && userData?.data.twitterUser ? (
-            isOnboarding && (
-              <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <img
-                    src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
-                    className="w-6 h-6 mr-4"
-                    alt="bitcoin"
-                  />
-                  <span className="font-medium text-zinc-50">
-                    @{userData.data.twitterUser.username}
-                  </span>
-                </div>
-                <Check />
-              </div>
-            )
-          ) : (
-            <button
-              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={!userData?.data.walletAddress}
-              onClick={connect}
-            >
-              <img
-                src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
-                className="w-6 h-6 mr-4"
-                alt="bitcoin"
-              />
-              <span className="font-medium text-black">Connect Twitter</span>
-            </button>
-          )}
-          {isLoggedIn ? (
-            userData?.data.isFollowing ? (
+          <div className="mt-4 flex flex-col space-y-1 w-full">
+            {isLoggedIn && userData?.data.walletAddress ? (
               isOnboarding && (
                 <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <img
-                      src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
-                      className="w-6 h-6 mr-4 rounded-full"
+                      src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
+                      className="w-6 h-6 mr-4"
                       alt="bitcoin"
                     />
                     <span className="font-medium text-zinc-50">
-                      Following @BitcoinBrosXYZ
+                      {userData.data.walletAddress.slice(0, 6)}...
+                      {userData.data.walletAddress.slice(-4)}
                     </span>
                   </div>
                   <Check />
                 </div>
               )
-            ) : isRateLimitExceeded ? null : (
+            ) : (
+              <button
+                className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center"
+                onClick={openConnectModal}
+              >
+                <img
+                  src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
+                  className="w-6 h-6 mr-4"
+                  alt="bitcoin"
+                />
+                <span className="font-medium text-black">
+                  Connect Bitcoin Ordinals Wallet
+                </span>
+              </button>
+            )}
+            {isLoggedIn && userData?.data.twitterUser ? (
+              isOnboarding && (
+                <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
+                      className="w-6 h-6 mr-4"
+                      alt="bitcoin"
+                    />
+                    <span className="font-medium text-zinc-50">
+                      @{userData.data.twitterUser.username}
+                    </span>
+                  </div>
+                  <Check />
+                </div>
+              )
+            ) : (
+              <button
+                className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={!userData?.data.walletAddress}
+                onClick={connect}
+              >
+                <img
+                  src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
+                  className="w-6 h-6 mr-4"
+                  alt="bitcoin"
+                />
+                <span className="font-medium text-black">Connect Twitter</span>
+              </button>
+            )}
+            {isLoggedIn ? (
+              userData?.data.isFollowing ? (
+                isOnboarding && (
+                  <div className="py-4 px-4 lg:px-8 flex bg-zinc-900 items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
+                        className="w-6 h-6 mr-4 rounded-full"
+                        alt="bitcoin"
+                      />
+                      <span className="font-medium text-zinc-50">
+                        Following @BitcoinBrosXYZ
+                      </span>
+                    </div>
+                    <Check />
+                  </div>
+                )
+              ) : isRateLimitExceeded ? null : (
+                <button
+                  className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
+                  onClick={follow}
+                  disabled={!userData?.data?.twitterUser}
+                >
+                  <img
+                    src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
+                    className="w-6 h-6 mr-4 rounded-full"
+                    alt="bitcoin"
+                  />
+                  <span className="font-medium text-black">
+                    Follow @BitcoinBrosXYZ
+                  </span>
+                </button>
+              )
+            ) : (
               <button
                 className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
+                disabled={
+                  !userData?.data.walletAddress || !userData?.data.twitterUser
+                }
                 onClick={follow}
-                disabled={!userData?.data?.twitterUser}
               >
                 <img
                   src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
@@ -299,165 +320,150 @@ const Home: NextPage = () => {
                   Follow @BitcoinBrosXYZ
                 </span>
               </button>
-            )
-          ) : (
-            <button
-              className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30"
-              disabled={
-                !userData?.data.walletAddress || !userData?.data.twitterUser
-              }
-              onClick={follow}
+            )}
+
+            {isLoggedIn ? (
+              userData?.data.isFollowing ? (
+                <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Check fill="#18181b" className="flex-shrink-0" />
+                    <span className="font-medium text-zinc-900">
+                      You&apos;re in the whitelist Bro!
+                    </span>
+                  </div>
+                </div>
+              ) : isRateLimitExceeded ? (
+                <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Check fill="#18181b" />
+                    <span className="font-medium text-zinc-900">
+                      You&apos;re in the whitelist Bro! Follow us on{" "}
+                      <a
+                        href="https://www.twitter.com/BitcoinBrosXYZ"
+                        className="underline font-bold"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Twitter
+                      </a>{" "}
+                      to stay updated.
+                    </span>
+                  </div>
+                </div>
+              ) : null
+            ) : null}
+          </div>
+          {isTweetSharable
+            ? userData?.data?.twitterUser && (
+                <>
+                  <div className="mt-8">
+                    <h2 className="font-medium text-2xl text-zinc-100">
+                      It&apos;s time to get proud
+                      <br />
+                      and loud on Twitter
+                    </h2>
+                  </div>
+                  <>
+                    <button
+                      className="bg-blue-400 max-w-md w-full py-4 px-4 lg:px-8 mt-4 font-medium"
+                      onClick={post}
+                    >
+                      Share Tweet
+                    </button>
+                    <div className="flex flex-col max-w-md bg-zinc-900 text-zinc-100 p-4">
+                      <div className="flex space-x-4">
+                        <div className="w-12 h-12 flex-shrink-0 bg-[#2daae1] rounded-full flex items-center justify-center">
+                          <img
+                            src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
+                            alt="twitter"
+                            className="w-10 h-10"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-semibold">
+                            {userData?.data.twitterUser.name}
+                          </span>
+                          <span className="font-medium text-sm text-zinc-300">
+                            @{userData?.data.twitterUser.username}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="mt-4 whitespace-pre-line">
+                        {whitelistTweet.tweet}
+                        <br />
+                        <a
+                          href="https://bitcoinbros.xyz"
+                          className="text-blue-400"
+                        >
+                          bitcoinbros.xyz
+                        </a>
+                      </p>
+                    </div>
+                  </>
+                </>
+              )
+            : userData?.data?.isWhitelistPostShared &&
+              isOnboarding && (
+                <div className="py-4 px-4 lg:px-8 mt-8 flex bg-[#CFFF50] items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Check fill="#18181b" />
+                    <span className="font-medium text-zinc-900">
+                      Tweeted your arrival!
+                    </span>
+                  </div>
+                </div>
+              )}
+        </div>
+        <footer className="h-16 flex-shrink-0 relative lg:fixed lg:right-8 lg:bottom-8">
+          <div className="flex items-center space-x-8 justify-center lg:justify-end h-full">
+            <a
+              href="https://twitter.com/BitcoinBrosXYZ?utm_medium=website&utm_source=bitcoinbros"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center rounded-full text-zinc-100"
             >
               <img
-                src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
-                className="w-6 h-6 mr-4 rounded-full"
-                alt="bitcoin"
+                src="https://static.cdn.zo.xyz/app-media/logos/twitter.svg"
+                className="w-6 h-6"
+                alt="Twitter"
               />
-              <span className="font-medium text-black">
-                Follow @BitcoinBrosXYZ
-              </span>
-            </button>
-          )}
-
-          {isLoggedIn ? (
-            userData?.data.isFollowing ? (
-              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <Check fill="#18181b" className="flex-shrink-0" />
-                  <span className="font-medium text-zinc-900">
-                    You&apos;re in the whitelist Bro!
-                  </span>
-                </div>
-              </div>
-            ) : isRateLimitExceeded ? (
-              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <Check fill="#18181b" />
-                  <span className="font-medium text-zinc-900">
-                    You&apos;re in the whitelist Bro! Follow us on{" "}
-                    <a
-                      href="https://www.twitter.com/BitcoinBrosXYZ"
-                      className="underline font-bold"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Twitter
-                    </a>{" "}
-                    to stay updated.
-                  </span>
-                </div>
-              </div>
-            ) : null
-          ) : null}
-        </div>
-        {isTweetSharable
-          ? userData?.data?.twitterUser && (
-              <>
-                <div className="mt-8">
-                  <h2 className="font-medium text-2xl text-zinc-100">
-                    It&apos;s time to get proud
-                    <br />
-                    and loud on Twitter
-                  </h2>
-                </div>
-                <>
-                  <button
-                    className="bg-blue-400 max-w-md w-full py-4 px-4 lg:px-8 mt-4 font-medium"
-                    onClick={post}
-                  >
-                    Share Tweet
-                  </button>
-                  <div className="flex flex-col max-w-md bg-zinc-900 text-zinc-100 p-4">
-                    <div className="flex space-x-4">
-                      <div className="w-12 h-12 flex-shrink-0 bg-[#2daae1] rounded-full flex items-center justify-center">
-                        <img
-                          src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
-                          alt="twitter"
-                          className="w-10 h-10"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-semibold">
-                          {userData?.data.twitterUser.name}
-                        </span>
-                        <span className="font-medium text-sm text-zinc-300">
-                          @{userData?.data.twitterUser.username}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="mt-4 whitespace-pre-line">
-                      {whitelistTweet.tweet}
-                      <br />
-                      <a
-                        href="https://bitcoinbros.xyz"
-                        className="text-blue-400"
-                      >
-                        bitcoinbros.xyz
-                      </a>
-                    </p>
-                  </div>
-                </>
-              </>
-            )
-          : userData?.data?.isWhitelistPostShared &&
-            isOnboarding && (
-              <div className="py-4 px-4 lg:px-8 mt-8 flex bg-[#CFFF50] items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <Check fill="#18181b" />
-                  <span className="font-medium text-zinc-900">
-                    Tweeted your arrival!
-                  </span>
-                </div>
-              </div>
-            )}
+            </a>
+            <a
+              href="https://t.me/+UC12QV-WDRA3YmVl"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center rounded-full text-zinc-100"
+            >
+              <img
+                src="https://static.cdn.zo.xyz/app-media/logos/telegram.svg"
+                className="w-6 h-6"
+                alt="Telegram"
+              />
+            </a>
+            <a
+              href="https://discord.gg/DFXmWrMEZA"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center rounded-full text-zinc-100"
+            >
+              <img
+                src="https://static.cdn.zo.xyz/app-media/logos/discord.svg"
+                className="w-6 h-6"
+                alt="Discord"
+              />
+            </a>
+          </div>
+        </footer>
       </section>
-      <footer className="h-16 flex-shrink-0 relative lg:fixed lg:right-8 lg:bottom-8">
-        <div className="flex items-center space-x-8 justify-center lg:justify-end h-full">
-          <a
-            href="https://twitter.com/BitcoinBrosXYZ?utm_medium=website&utm_source=bitcoinbros"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center rounded-full text-zinc-100"
-          >
-            <img
-              src="https://static.cdn.zo.xyz/app-media/logos/twitter.svg"
-              className="w-6 h-6"
-              alt="Twitter"
-            />
-          </a>
-          <a
-            href="https://t.me/+UC12QV-WDRA3YmVl"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center rounded-full text-zinc-100"
-          >
-            <img
-              src="https://static.cdn.zo.xyz/app-media/logos/telegram.svg"
-              className="w-6 h-6"
-              alt="Telegram"
-            />
-          </a>
-          <a
-            href="https://discord.gg/DFXmWrMEZA"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center rounded-full text-zinc-100"
-          >
-            <img
-              src="https://static.cdn.zo.xyz/app-media/logos/discord.svg"
-              className="w-6 h-6"
-              alt="Discord"
-            />
-          </a>
-        </div>
-      </footer>
+
       {(isLoadingAuth ||
         isLoadingFollow ||
         isLoadingPost ||
         isLoadingTwitterAuth ||
         isFetchingFollow ||
         isFetchingMe ||
-        isFetchingTwitterAuth) && <Loading />}
+        isFetchingTwitterAuth) &&
+        null}
     </main>
   );
 };
