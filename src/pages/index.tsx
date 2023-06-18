@@ -325,8 +325,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center space-x-4">
                   <Check fill="#18181b" className="flex-shrink-0" />
                   <span className="font-medium text-zinc-900">
-                    Big Bro has received your whitelist request. Keep dropping
-                    here to check.
+                    You&apos;re in the whitelist Bro!
                   </span>
                 </div>
               </div>
@@ -335,7 +334,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center space-x-4">
                   <Check fill="#18181b" />
                   <span className="font-medium text-zinc-900">
-                    You&apos;re in, Bro! Follow us on{" "}
+                    You&apos;re in the whitelist Bro! Follow us on{" "}
                     <a
                       href="https://www.twitter.com/BitcoinBrosXYZ"
                       className="underline font-bold"
