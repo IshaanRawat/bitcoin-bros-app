@@ -23,6 +23,7 @@ const Home: NextPage = () => {
   const { login, isLoggedIn, logout } = useAuth();
 
   const backgroundVideoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const [isTweetSharable, setTweetSharable] = useState<boolean>(false);
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
@@ -115,6 +116,12 @@ const Home: NextPage = () => {
           backgroundVideoRef.current.play();
         }
       }
+      if (audioRef.current) {
+        if (audioRef.current.paused) {
+          audioRef.current.volume = 0.25;
+          audioRef.current.play();
+        }
+      }
     };
   }, []);
 
@@ -153,6 +160,12 @@ const Home: NextPage = () => {
       className={`flex flex-col justify-between bg-black h-screen overflow-hidden w-screen ${spaceGrotesk.className}`}
     >
       <MetaTags />
+      <audio ref={audioRef} controls={false} playsInline autoPlay>
+        <source
+          src="https://static.cdn.zo.xyz/web-media/bb-background-music.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
       <video
         ref={backgroundVideoRef}
         autoPlay
@@ -457,13 +470,13 @@ const Home: NextPage = () => {
       </section>
 
       {(isLoadingAuth ||
+        isLoadingMe ||
         isLoadingFollow ||
         isLoadingPost ||
         isLoadingTwitterAuth ||
         isFetchingFollow ||
         isFetchingMe ||
-        isFetchingTwitterAuth) &&
-        null}
+        isFetchingTwitterAuth) && <Loading />}
     </main>
   );
 };
