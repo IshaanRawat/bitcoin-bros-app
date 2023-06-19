@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     { userId: user._id.toString(), walletAddress: user.walletAddress },
     config.JWT_SECRET,
     {
-      expiresIn: "24h",
+      expiresIn: "72h",
     }
   );
 
