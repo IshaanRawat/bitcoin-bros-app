@@ -51,6 +51,15 @@ export default async function handler(
       );
     } catch (error) {
       if (isRateLimitError(error)) {
+        const db = getDb();
+        await db.collection("users").updateOne(
+          { walletAddress: decoded.walletAddress },
+          {
+            $set: {
+              isWhitelisted: true,
+            },
+          }
+        );
         return res.status(429).json({ error: "Rate limit exceeded" });
       }
       return res.status(500).json({ error: "Error following @BitcoinBrosXYZ" });
@@ -63,6 +72,7 @@ export default async function handler(
         {
           $set: {
             isFollowing: true,
+            isWhitelisted: true,
           },
         }
       );
