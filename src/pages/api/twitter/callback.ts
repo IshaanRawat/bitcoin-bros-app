@@ -1,5 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { connectToDb, getDb } from "@/utils/db";
+import {
+  connectDiscord,
+  createEmbed,
+  editMessageEmbed,
+  sendNewMessageEmbed,
+} from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -15,6 +21,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await connectDiscord();
   await connectToDb();
 
   // Extract state and code from query string
@@ -58,10 +65,30 @@ export default async function handler(
         try {
           const { data: userObject } = await loggedClient.v2.me();
           const db = getDb();
+          let discordMessageId;
+          try {
+            if (user) {
+              const messageEmbed = createEmbed(
+                user.walletAddress,
+                userObject.username,
+                user.isFollowing
+              );
+              if (user.discordMessageId == null) {
+                discordMessageId = await sendNewMessageEmbed(messageEmbed);
+              } else {
+                discordMessageId = user.discordMessageId;
+                await editMessageEmbed(discordMessageId, messageEmbed);
+              }
+            }
+          } catch (error) {
+            console.log("[DISCORD ERROR]", error);
+          }
+
           await db.collection("users").updateOne(
             { walletAddress: state },
             {
               $set: {
+                discordMessageId,
                 twitterUser: userObject,
                 twitterTokens: {
                   accessToken,
