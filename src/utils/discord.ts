@@ -59,7 +59,7 @@ const createEmbed = (
       ? "#cfff50"
       : walletAddress && twitterUsername
       ? "#156cc4"
-      : "#99999"
+      : "#999999"
   );
 
   return embed;
