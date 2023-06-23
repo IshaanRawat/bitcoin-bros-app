@@ -55,6 +55,13 @@ const Onboarding: React.FC<OnboardingProps> = () => {
     }
   }, [isRateLimitExceeded, user]);
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setOnboarding(false);
+      setTweetSharable(false);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       {!(
@@ -84,7 +91,7 @@ const Onboarding: React.FC<OnboardingProps> = () => {
           )
         ) : (
           <button
-            className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center"
+            className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center space-x-4"
             onClick={openConnectModal}
           >
             <Image
