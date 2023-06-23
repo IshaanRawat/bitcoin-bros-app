@@ -125,7 +125,7 @@ const Onboarding: React.FC<OnboardingProps> = () => {
         ) : (
           <button
             className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
-            disabled={!user?.walletAddress}
+            disabled={!isLoggedIn || !user?.walletAddress}
             onClick={connectTwitter}
           >
             <Image
@@ -177,7 +177,7 @@ const Onboarding: React.FC<OnboardingProps> = () => {
         ) : (
           <button
             className="bg-zinc-100 py-4 px-4 lg:px-8 flex items-center disabled:cursor-not-allowed disabled:opacity-30 space-x-4"
-            disabled={!user?.walletAddress || !user?.twitterUser}
+            disabled={!isLoggedIn || !user?.walletAddress || !user?.twitterUser}
             onClick={followOnTwitter}
           >
             <Image
