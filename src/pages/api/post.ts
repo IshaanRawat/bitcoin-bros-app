@@ -60,7 +60,10 @@ export default async function handler(
 
   try {
     try {
-      await client.v2.reply(tweet.tweet, "1668202283941904391");
+      await client.v2.reply(
+        tweet.tweet,
+        config.TWITTER_BITCOINBROS_WHITELIST_REPLY_TO
+      );
     } catch (error) {
       console.log(error);
       if (isRateLimitError(error)) {
