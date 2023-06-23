@@ -6,12 +6,14 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useQueryClient } from "react-query";
 import AuthContext from "./Context";
 
 interface AuthProviderProps extends PropsWithChildren {}
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isLoggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,13 +30,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = useCallback(async () => {
     setLoggedIn(false);
 
+    queryClient.clear();
+    queryClient.removeQueries();
+    queryClient.invalidateQueries();
+    queryClient.resetQueries();
+
     localStorage.clear();
 
     const customAxiosHeaders = axios.defaults.headers;
     delete customAxiosHeaders.Authorization;
 
     axios.defaults.headers = customAxiosHeaders;
-  }, []);
+  }, [queryClient]);
 
   const login = (token: string) => {
     const customAxiosHeaders: any = {
