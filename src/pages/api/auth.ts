@@ -1,12 +1,16 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { connectToDb, getDb } from "@/utils/db";
+import {
+  connectDiscord,
+  createEmbed,
+  sendNewMessageEmbed,
+} from "@/utils/discord";
 import jwt from "jsonwebtoken";
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import config from "./../../../config.json";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDb();
+  await connectDiscord();
   const { walletAddress } = req.body;
 
   let user;
@@ -21,11 +25,33 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         isFollowing: false,
         isWhitelistPostShared: false,
       });
-      user = { _id: result.insertedId, walletAddress };
+      user = { _id: result.insertedId, walletAddress, discordMessageId: null };
     }
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Error looking up user" });
+  }
+
+  try {
+    if (user.discordMessageId == null) {
+      const messageEmbed = createEmbed(
+        walletAddress,
+        user.twitterUser?.username,
+        user?.isFollowing
+      );
+      const discordMessageId = await sendNewMessageEmbed(messageEmbed);
+      const db = getDb();
+      await db.collection("users").updateOne(
+        { walletAddress },
+        {
+          $set: {
+            discordMessageId,
+          },
+        }
+      );
+    }
+  } catch (error) {
+    console.log("[DISCORD ERROR]", error);
   }
 
   const token = jwt.sign(
