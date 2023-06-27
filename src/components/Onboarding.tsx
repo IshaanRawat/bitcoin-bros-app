@@ -199,7 +199,7 @@ const Onboarding: React.FC<OnboardingProps> = () => {
               <div className="flex items-center space-x-4">
                 <Check fill="#18181b" className="flex-shrink-0" />
                 <span className="font-medium text-zinc-900">
-                  Thanks bro 🤙. Vibe-check in progress!
+                  Thanks bro 🤙 Vibe-check in progress!
                 </span>
               </div>
             </div>
@@ -208,7 +208,7 @@ const Onboarding: React.FC<OnboardingProps> = () => {
               <div className="flex items-center space-x-4">
                 <Check fill="#18181b" />
                 <span className="font-medium text-zinc-900">
-                  You&apos;re in the whitelist Bro! Follow us on{" "}
+                  Thanks bro 🤙 Vibe-check in progress! Follow us on{" "}
                   <a
                     href="https://www.twitter.com/BitcoinBrosXYZ"
                     className="underline font-bold"
