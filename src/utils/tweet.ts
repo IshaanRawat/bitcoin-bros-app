@@ -1,4 +1,4 @@
-import tweets from "./../config/tweetMessages.json";
+import tweets from "./../config/whitelist-tweets.json";
 
 // get random tweet message
 const randomTweetMessage = () => {

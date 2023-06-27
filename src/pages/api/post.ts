@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { TwitterApi } from "twitter-api-v2";
 import config from "./../../../config.json";
-import tweets from "./../../config/tweetMessages.json";
+import tweets from "./../../config/whitelist-tweets.json";
 
 import { connectDiscord, sendNewMessage } from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
