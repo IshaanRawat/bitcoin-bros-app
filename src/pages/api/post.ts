@@ -6,6 +6,7 @@ import { TwitterApi } from "twitter-api-v2";
 import config from "./../../../config.json";
 import tweets from "./../../config/tweetMessages.json";
 
+import { connectDiscord, sendNewMessage } from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
 
 // function to get tweet by id
@@ -26,6 +27,7 @@ export default async function handler(
   }
 
   await connectToDb();
+  await connectDiscord();
 
   const { authorization } = req.headers;
 
@@ -67,6 +69,9 @@ export default async function handler(
     } catch (error) {
       console.log(error);
       if (isRateLimitError(error)) {
+        sendNewMessage(
+          `Rate limit exceeded while post from ${user.twitterUser.username}!`
+        );
         return res.status(429).json({ error: "Rate limit error" });
       } else {
         return res.status(500).json({ error: "Error tweeting" });

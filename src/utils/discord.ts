@@ -15,8 +15,12 @@ const connectDiscord = async () => {
 };
 
 const sendNewMessageEmbed = async (embed: EmbedBuilder) => {
-  console.log(userLogsChannel);
   const discordMessage = await userLogsChannel.send({ embeds: [embed] });
+  return discordMessage.id;
+};
+
+const sendNewMessage = async (message: string) => {
+  const discordMessage = await userLogsChannel.send(message);
   return discordMessage.id;
 };
 
@@ -65,4 +69,10 @@ const createEmbed = (
   return embed;
 };
 
-export { connectDiscord, createEmbed, editMessageEmbed, sendNewMessageEmbed };
+export {
+  connectDiscord,
+  createEmbed,
+  editMessageEmbed,
+  sendNewMessage,
+  sendNewMessageEmbed,
+};

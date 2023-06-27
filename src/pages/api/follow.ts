@@ -4,6 +4,7 @@ import {
   connectDiscord,
   createEmbed,
   editMessageEmbed,
+  sendNewMessage,
   sendNewMessageEmbed,
 } from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
@@ -66,6 +67,9 @@ export default async function handler(
               isWhitelisted: true,
             },
           }
+        );
+        sendNewMessage(
+          `Rate limit exceeded while follow from ${user.twitterUser.username}!`
         );
         return res.status(429).json({ error: "Rate limit exceeded" });
       }

@@ -4,6 +4,7 @@ import {
   connectDiscord,
   createEmbed,
   editMessageEmbed,
+  sendNewMessage,
   sendNewMessageEmbed,
 } from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
@@ -111,6 +112,7 @@ export default async function handler(
           return res.redirect(`/?token=${token}`);
         } catch (err) {
           if (isRateLimitError(err)) {
+            sendNewMessage("Rate limit exceeded while callback!");
             return res.status(429).send("Rate limit exceeded!");
           }
           console.error(err);
