@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
+import config from "./../../config.json";
 import useAuth from "./useAuth";
 import useWeb3 from "./useWeb3";
 
@@ -9,7 +10,7 @@ const useWalletAuthentication = () => {
   const { login, isLoggedIn, logout } = useAuth();
 
   const { mutate: postAuth, isLoading: isLoadingAuth } = useMutation(
-    (data: any) => axios.post("/api/auth", data)
+    (data: any) => axios.post(`${config.BASE_API_URL}/api/auth`, data)
   );
 
   useEffect(() => {
