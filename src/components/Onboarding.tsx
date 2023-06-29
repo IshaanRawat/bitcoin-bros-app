@@ -4,10 +4,13 @@ import { randomTweetMessage } from "@/utils/tweet";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import Loading from "./Loading";
+import Pledges from "./Pledges";
 
-interface OnboardingProps {}
+interface OnboardingProps {
+  setOnboarded: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const Onboarding: React.FC<OnboardingProps> = () => {
+const Onboarding: React.FC<OnboardingProps> = ({ setOnboarded }) => {
   const { isLoggedIn, openConnectModal } = useWalletAuthentication();
 
   const {
@@ -61,6 +64,14 @@ const Onboarding: React.FC<OnboardingProps> = () => {
       setTweetSharable(false);
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (user && user.walletAddress && user.twitterUser && user.isFollowing) {
+      setOnboarded(true);
+    } else {
+      setOnboarded(false);
+    }
+  }, [setOnboarded, user]);
 
   return (
     <>
@@ -195,32 +206,38 @@ const Onboarding: React.FC<OnboardingProps> = () => {
 
         {isLoggedIn ? (
           user?.isFollowing ? (
-            <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Check fill="#18181b" className="flex-shrink-0" />
-                <span className="font-medium text-zinc-900">
-                  Thanks bro 🤙 Vibe-check in progress!
-                </span>
+            <>
+              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Check fill="#18181b" className="flex-shrink-0" />
+                  <span className="font-medium text-zinc-900">
+                    Thanks bro 🤙 Vibe-check in progress!
+                  </span>
+                </div>
               </div>
-            </div>
+              <Pledges />
+            </>
           ) : isRateLimitExceeded ? (
-            <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Check fill="#18181b" />
-                <span className="font-medium text-zinc-900">
-                  Thanks bro 🤙 Vibe-check in progress! Follow us on{" "}
-                  <a
-                    href="https://www.twitter.com/BitcoinBrosXYZ"
-                    className="underline font-bold"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Twitter
-                  </a>{" "}
-                  to stay updated.
-                </span>
+            <>
+              <div className="py-4 px-4 lg:px-8 flex bg-[#CFFF50] items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Check fill="#18181b" />
+                  <span className="font-medium text-zinc-900">
+                    Thanks bro 🤙 Vibe-check in progress! Follow us on{" "}
+                    <a
+                      href="https://www.twitter.com/BitcoinBrosXYZ"
+                      className="underline font-bold"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Twitter
+                    </a>{" "}
+                    to stay updated.
+                  </span>
+                </div>
               </div>
-            </div>
+              <Pledges />
+            </>
           ) : null
         ) : null}
         {isTweetSharable

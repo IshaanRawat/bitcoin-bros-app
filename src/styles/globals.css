@@ -36,3 +36,7 @@ main {
 #header.is-pinned {
   background-color: red;
 }
+
+.pledge a {
+  @apply text-blue-400;
+}
