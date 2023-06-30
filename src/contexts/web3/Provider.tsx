@@ -1,6 +1,7 @@
 import { ConnectModal } from "@/components";
 import React, { useMemo, useState } from "react";
 import { getAddress, signMessage as signSatsMessage } from "sats-connect";
+import { WalletName } from "../../..";
 import Web3Context from "./Context";
 
 interface Web3ProviderProps {
@@ -8,7 +9,13 @@ interface Web3ProviderProps {
 }
 
 const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
-  const [address, setAddress] = useState<string | null>(null);
+  const [address, setAddress] = useState<{
+    payment: string;
+    ordinal: string;
+  }>({
+    payment: "",
+    ordinal: "",
+  });
   const [connectedWallet, setConnectedWallet] = useState<WalletName | null>(
     null
   );
@@ -16,7 +23,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     useState<boolean>(false);
 
   const isConnected = useMemo(() => {
-    return !!address;
+    return address.payment !== "";
   }, [address]);
 
   const signMessage = async (message: string) => {
@@ -27,28 +34,30 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     } else if (connectedWallet === "Hiro") {
       const response = await window.btc.request("signMessage", {
         message,
-        paymentType: "p2tr",
+        paymentType: "p2wpkh",
       });
       console.log("signMessage", response.result.signature);
       return response.result.signature;
     } else if (connectedWallet === "Xverse") {
-      const signMessageOptions: any = {
-        payload: {
-          network: {
-            type: "Mainnet",
+      return new Promise((resolve) => {
+        const signMessageOptions: any = {
+          payload: {
+            network: {
+              type: "Mainnet",
+            },
+            address: address.payment,
+            message,
           },
-          address,
-          message,
-        },
-        onFinish: (response: any) => {
-          console.log("signMessage", response);
-          return response;
-        },
-        onCancel: () => {
-          return null;
-        },
-      };
-      await signSatsMessage(signMessageOptions);
+          onFinish: (response: any) => {
+            console.log("signMessage", response);
+            return resolve(response);
+          },
+          onCancel: () => {
+            return resolve(null);
+          },
+        };
+        return signSatsMessage(signMessageOptions);
+      });
     }
   };
 
@@ -63,7 +72,10 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         try {
           const accounts = await window.unisat.requestAccounts();
           console.log("connect success", accounts);
-          setAddress(accounts[0]);
+          setAddress({
+            payment: accounts[0],
+            ordinal: "",
+          });
           setConnectedWallet(walletName);
           setConnectModalVisible(false);
         } catch (e) {
@@ -80,11 +92,17 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         console.log("Hiro Wallet is installed!");
         try {
           const userAddresses = await window.btc.request("getAddresses");
-          const taprootAddress = userAddresses.result.addresses.find(
+          const ordinalAddress = userAddresses.result.addresses.find(
             (address: any) => address.type === "p2tr"
           ).address;
-          console.log("connect success", userAddresses, taprootAddress);
-          setAddress(taprootAddress);
+          const paymentAddress = userAddresses.result.addresses.find(
+            (address: any) => address.type === "p2wpkh"
+          ).address;
+          console.log("connect success", userAddresses);
+          setAddress({
+            payment: paymentAddress,
+            ordinal: ordinalAddress,
+          });
           setConnectedWallet(walletName);
           setConnectModalVisible(false);
         } catch (e) {
@@ -99,7 +117,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         try {
           const getAddressOptions: any = {
             payload: {
-              purposes: ["ordinals"],
+              purposes: ["ordinals", "payment"],
               message: "Address for receiving Ordinals and payments",
               network: {
                 type: "Mainnet",
@@ -109,8 +127,14 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
               const ordinalAddress = response.addresses.find(
                 (a: any) => a.purpose === "ordinals"
               ).address;
-              console.log("connect success", response, ordinalAddress);
-              setAddress(ordinalAddress);
+              const paymentAddress = response.addresses.find(
+                (a: any) => a.purpose === "payment"
+              ).address;
+              console.log("connect success", response);
+              setAddress({
+                payment: paymentAddress,
+                ordinal: ordinalAddress,
+              });
               setConnectedWallet(walletName);
               setConnectModalVisible(false);
             },
@@ -128,7 +152,10 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const disconnect = () => {
-    setAddress(null);
+    setAddress({
+      payment: "",
+      ordinal: "",
+    });
     setConnectedWallet(null);
   };
 

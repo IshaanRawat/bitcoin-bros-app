@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { EmptyFunction, Tweet } from "../..";
 import config from "./../../config.json";
 const useTwitter = () => {
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
@@ -36,7 +37,10 @@ const useTwitter = () => {
     isFetching: isFetchingTwitterAuth,
   } = useQuery(
     ["twitter", "auth"],
-    () => axios.post(`${config.BASE_API_URL}/api/twitter/auth`),
+    () =>
+      axios.post(
+        `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-bros/whitelist/twitter/oauth/request/`
+      ),
     {
       enabled: false,
     }
@@ -45,7 +49,7 @@ const useTwitter = () => {
   const connect = async () => {
     const data = await connectTwitter();
     if (data) {
-      window.open(data.data?.data.url, "_parent");
+      window.open(data?.data?.data.authorization_url, "_blank");
     }
   };
 

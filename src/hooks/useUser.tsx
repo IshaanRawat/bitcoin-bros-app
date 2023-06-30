@@ -13,7 +13,7 @@ const useUser = () => {
     isFetching: isFetchingMe,
     isLoading: isLoadingMe,
   } = useQuery(["me"], () => axios.get(`${config.BASE_API_URL}/api/me`), {
-    enabled: isLoggedIn,
+    enabled: isLoggedIn == true,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: false,

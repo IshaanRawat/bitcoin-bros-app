@@ -2,6 +2,7 @@
 import { Space_Grotesk } from "next/font/google";
 import React from "react";
 import { createPortal } from "react-dom";
+import { WalletName } from "../..";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
@@ -28,6 +29,29 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
           Connect your wallet to start your Bitcoin Bros journey.
         </p>
         <div className="flex flex-col mt-4 lg:mt-8 space-y-2 lg:space-y-4">
+          <button
+            onClick={connectWallet.bind(null, "Xverse")}
+            disabled={typeof window.BitcoinProvider === "undefined"}
+            className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <img
+              src="https://assets.website-files.com/624b08d53d7ac60ccfc11d8d/64637a04ad4e523a3e07675c_32x32.png"
+              alt="xverse"
+              className="w-6 h-6 rounded-full"
+            />
+            <div className="flex flex-col items-start">
+              <span>Xverse</span>
+              {typeof window.BitcoinProvider !== "undefined" ? (
+                <span className="text-xs font-semibold uppercase text-green-400">
+                  Installed
+                </span>
+              ) : (
+                <span className="text-xs font-semibold uppercase text-zinc-500">
+                  Not Installed
+                </span>
+              )}
+            </div>
+          </button>
           <button
             onClick={connectWallet.bind(null, "Hiro")}
             disabled={
@@ -59,7 +83,7 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
           </button>
           <button
             onClick={connectWallet.bind(null, "UniSat")}
-            disabled={typeof window.unisat === "undefined"}
+            disabled={typeof window.unisat === "undefined" || true}
             className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <img
@@ -70,31 +94,8 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
             <div className="flex flex-col items-start">
               <span>UniSat</span>
               {typeof window.unisat !== "undefined" ? (
-                <span className="text-xs font-semibold uppercase text-green-400">
-                  Installed
-                </span>
-              ) : (
-                <span className="text-xs font-semibold uppercase text-zinc-500">
-                  Not Installed
-                </span>
-              )}
-            </div>
-          </button>
-          <button
-            onClick={connectWallet.bind(null, "Xverse")}
-            disabled={typeof window.BitcoinProvider === "undefined"}
-            className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <img
-              src="https://assets.website-files.com/624b08d53d7ac60ccfc11d8d/64637a04ad4e523a3e07675c_32x32.png"
-              alt="xverse"
-              className="w-6 h-6 rounded-full"
-            />
-            <div className="flex flex-col items-start">
-              <span>Xverse</span>
-              {typeof window.BitcoinProvider !== "undefined" ? (
-                <span className="text-xs font-semibold uppercase text-green-400">
-                  Installed
+                <span className="text-xs font-semibold uppercase text-red-400">
+                  Not Supported
                 </span>
               ) : (
                 <span className="text-xs font-semibold uppercase text-zinc-500">

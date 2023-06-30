@@ -1,15 +1,19 @@
 import { createContext } from "react";
+import { AuthUser } from "../../..";
 
 export const EMPTY = {
-  isLoggedIn: false,
+  isLoggedIn: null,
+  user: null,
   login: () => {},
   logout: () => {},
+  showLoginModal: () => {},
 };
 
 interface AuthContextInterface {
-  isLoggedIn: boolean;
-  login: (token: string, tokenExpiry: string, user: GeneralObject) => void;
+  isLoggedIn: boolean | null;
   logout: () => void;
+  login: (user: AuthUser, token: string, validTill: number) => void;
+  user: AuthUser | null;
 }
 
 const AuthContext = createContext<AuthContextInterface>(EMPTY);
