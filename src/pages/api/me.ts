@@ -2,8 +2,9 @@
 import { connectToDb, getDb } from "@/utils/db";
 import jwt from "jsonwebtoken";
 
+import config from "@/data/config.json";
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "../../../config.json";
+import { GeneralObject } from "../../..";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDb();

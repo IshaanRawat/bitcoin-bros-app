@@ -1,8 +1,8 @@
+import config from "@/data/config.json";
 import axios from "axios";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { EmptyFunction, Tweet } from "../..";
-import config from "./../../config.json";
 const useTwitter = () => {
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
 

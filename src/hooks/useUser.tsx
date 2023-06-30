@@ -1,7 +1,7 @@
+import config from "@/data/config.json";
 import axios from "axios";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
-import config from "./../../config.json";
 import useAuth from "./useAuth";
 
 const useUser = () => {

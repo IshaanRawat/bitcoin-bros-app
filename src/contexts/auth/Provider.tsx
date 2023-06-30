@@ -1,3 +1,4 @@
+import config from "@/data/config.json";
 import { getDeviceId, getUserIfExists } from "@/utils/auth";
 import { isValidObject } from "@/utils/object";
 import { isValidString } from "@/utils/string";
@@ -11,7 +12,6 @@ import React, {
 } from "react";
 import { useQueryClient } from "react-query";
 import { AuthUser, BBAxiosHeader } from "../../..";
-import config from "./../../../config.json";
 import AuthContext from "./Context";
 
 interface AuthProviderProps extends PropsWithChildren {}

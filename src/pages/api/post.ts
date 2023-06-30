@@ -1,13 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import config from "@/data/config.json";
+import tweets from "@/data/whitelist-tweets.json";
 import { connectToDb, getDb } from "@/utils/db";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { TwitterApi } from "twitter-api-v2";
-import config from "./../../../config.json";
-import tweets from "./../../config/whitelist-tweets.json";
 
 import { connectDiscord, sendNewMessage } from "@/utils/discord";
 import { isRateLimitError } from "@/utils/twitter";
+import { GeneralObject } from "../../..";
 
 // function to get tweet by id
 function getTweet(id: string) {

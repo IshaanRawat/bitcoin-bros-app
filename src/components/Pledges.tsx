@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import pledges from "@/config/pledges.json";
+import pledges from "@/data/pledges.json";
 import Image from "next/image";
 import React from "react";
 

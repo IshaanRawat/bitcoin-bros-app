@@ -1,7 +1,7 @@
+import config from "@/data/config.json";
 import axios from "axios";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
-import config from "./../../config.json";
 import useAuth from "./useAuth";
 import useWeb3 from "./useWeb3";
 
