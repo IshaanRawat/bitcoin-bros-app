@@ -27,7 +27,7 @@ const useWhitelist = () => {
     ["webthree", "ordinals", "bitcoin-bros", "whitelist"],
     queries.WHITELIST,
     {
-      enabled: false,
+      enabled: isLoggedIn === true,
       retry: false,
       refetchOnWindowFocus: true,
       refetchOnMount: false,

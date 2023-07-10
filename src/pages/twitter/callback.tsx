@@ -55,7 +55,7 @@ const TwitterCallback: NextPage = () => {
       case "success":
         return {
           heading: "Success!",
-          body: "You have successfully connected to Twitter.<br />You can close this window now.",
+          body: "You have successfully connected to Twitter.\nYou can close this window now.",
         };
       case "error":
         return {
