@@ -1,3 +1,4 @@
+import config from "@/data/config.json";
 import { connectToDb, getDb } from "@/utils/db";
 import {
   connectDiscord,
@@ -6,7 +7,6 @@ import {
 } from "@/utils/discord";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "./../../../config.json";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDb();

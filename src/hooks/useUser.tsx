@@ -1,7 +1,6 @@
-import axios from "axios";
+import queries from "@/utils/queries";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
-import config from "./../../config.json";
 import useAuth from "./useAuth";
 
 const useUser = () => {
@@ -12,10 +11,10 @@ const useUser = () => {
     refetch: refetchUser,
     isFetching: isFetchingMe,
     isLoading: isLoadingMe,
-  } = useQuery(["me"], () => axios.get(`${config.BASE_API_URL}/api/me`), {
-    enabled: isLoggedIn,
+  } = useQuery(["me"], queries.PROFILE_ME, {
+    enabled: isLoggedIn == true,
     refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     retry: false,
   });
 

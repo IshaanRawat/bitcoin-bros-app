@@ -1,9 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import config from "@/data/config.json";
 import { connectToDb, getDb } from "@/utils/db";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { TwitterApi } from "twitter-api-v2";
-import config from "./../../../../config.json";
+import { GeneralObject } from "../../../..";
 
 const client = new TwitterApi({
   clientId: config.TWITTER_CLIENT_ID,

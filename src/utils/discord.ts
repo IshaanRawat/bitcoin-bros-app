@@ -1,5 +1,5 @@
+import config from "@/data/config.json";
 import { Client, EmbedBuilder } from "discord.js";
-import config from "./../../config.json";
 
 let client: Client;
 let userLogsChannel: any;

@@ -1,20 +1,28 @@
 import { createContext } from "react";
 
 export const EMPTY = {
-  address: null,
+  address: {
+    payment: "",
+    ordinal: "",
+  },
   isConnected: false,
   signMessage: async (message: string) => {
     return null;
   },
   openConnectModal: () => {},
   disconnect: () => {},
+  createTransaction: async (amount: number) => {},
 };
 
 interface Web3ContextInterface {
-  address: string | null;
+  address: {
+    payment: string;
+    ordinal: string;
+  };
   isConnected: boolean;
   signMessage: (message: string) => Promise<string | null>;
   openConnectModal: () => void;
+  createTransaction: (amount: number) => Promise<void>;
   disconnect: () => void;
 }
 

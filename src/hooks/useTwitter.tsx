@@ -1,65 +1,53 @@
-import axios from "axios";
+import mutations from "@/utils/mutations";
+import queries from "@/utils/queries";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import config from "./../../config.json";
+import { EmptyFunction, Tweet } from "../..";
 const useTwitter = () => {
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
 
-  const {
-    refetch: followBB,
-    isLoading: isLoadingFollow,
-    isFetching: isFetchingFollow,
-  } = useQuery(
-    ["follow"],
-    () => axios.get(`${config.BASE_API_URL}/api/follow`),
-    {
-      enabled: false,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: false,
-      onError: (error: any) => {
-        console.log(error.response);
-        if (error?.response?.status === 429) {
-          setRateLimitExceeded(true);
-        }
-      },
-    }
+  const { mutate: followBB, isLoading: isLoadingFollow } = useMutation(
+    mutations.CHALLENGES_TWITTER_FOLLOW
   );
 
   const { mutate: postBB, isLoading: isLoadingPost } = useMutation(
-    (data: any) => axios.post(`${config.BASE_API_URL}/api/post`, data)
+    mutations.CHALLENGES_TWITTER_POST
   );
 
   const {
     refetch: connectTwitter,
     isLoading: isLoadingTwitterAuth,
     isFetching: isFetchingTwitterAuth,
-  } = useQuery(
-    ["twitter", "auth"],
-    () => axios.post(`${config.BASE_API_URL}/api/twitter/auth`),
-    {
-      enabled: false,
-    }
-  );
+  } = useQuery(["twitter", "auth", "request"], queries.TWITTER_AUTH_REQUEST, {
+    enabled: false,
+  });
 
   const connect = async () => {
     const data = await connectTwitter();
     if (data) {
-      window.open(data.data?.data.url, "_parent");
+      window.open(data?.data?.data.url, "_blank");
     }
   };
 
   const follow = async (onSuccess: EmptyFunction) => {
-    const data = await followBB();
-    if (data.data?.data.success) {
-      onSuccess();
-    }
+    followBB(
+      {},
+      {
+        onSuccess,
+        onError: (error: any) => {
+          console.log(error.response);
+          if (error?.response?.status === 429) {
+            setRateLimitExceeded(true);
+          }
+        },
+      }
+    );
   };
 
   const post = async (tweet: Tweet, onSuccess: EmptyFunction) => {
     postBB(
       {
-        id: tweet.id,
+        tweet_text: tweet.tweet,
       },
       {
         onSuccess: (data) => {
@@ -78,7 +66,6 @@ const useTwitter = () => {
   return {
     follow,
     isLoadingFollow,
-    isFetchingFollow,
     post,
     isLoadingPost,
     connect,

@@ -1,6 +1,6 @@
+import config from "@/data/config.json";
 import { Db, MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import config from "./../../config.json";
 
 let db: Db;
 

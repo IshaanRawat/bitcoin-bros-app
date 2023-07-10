@@ -16,7 +16,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ setOnboarded }) => {
   const {
     connect,
     follow,
-    isFetchingFollow,
     isFetchingTwitterAuth,
     isLoadingFollow,
     isLoadingPost,
@@ -303,8 +302,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ setOnboarded }) => {
             )}
       </div>
 
-      {(isFetchingFollow ||
-        isFetchingTwitterAuth ||
+      {(isFetchingTwitterAuth ||
         isLoadingFollow ||
         isLoadingPost ||
         isLoadingTwitterAuth) && <Loading />}
