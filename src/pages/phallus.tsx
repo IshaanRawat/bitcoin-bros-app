@@ -2,9 +2,17 @@ import { Footer, Page, PhallusMint } from "@/components";
 import { NextPage } from "next";
 import Image from "next/image";
 
+const meta = {
+  title: "Bitcoin Inscribed Phalluses - 666",
+  description:
+    "The universal symbol of humanity, inscribed on the Bitcoin blockchain.",
+  shortcutIcon: "https://static.cdn.zo.xyz/media/phallus.png",
+  image: "https://static.cdn.zo.xyz/media/banner-phallus.png",
+};
+
 const Phallus: NextPage = () => {
   return (
-    <Page noVideo>
+    <Page noVideo metaTags={meta}>
       <section className="w-screen h-full lg:h-screen overflow-auto lg:overflow-hidden lg:flex lg:items-stretch bg-black">
         <section className="flex-1 flex flex-col p-4 lg:p-8">
           <header className="flex-shrink-0 relative flex justify-between pointer-events-none">

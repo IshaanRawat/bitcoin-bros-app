@@ -105,7 +105,7 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
           onClick={initiateMint}
         >
           <Image
-            src="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
+            src="https://static.cdn.zo.xyz/media/phallus.png"
             width={24}
             className="rounded-full"
             height={24}

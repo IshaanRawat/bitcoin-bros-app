@@ -7,18 +7,22 @@ interface MetaTagsProps {
   description?: string;
   image?: string;
   canonical?: string;
+  shortcutIcon?: string;
   type?: string;
 }
 const TITLE = "Bitcoin Bros";
 const DESCRIPTION =
-  "The Best PFP collection ever is coming to the Bitcoin Brotherhood.";
+  "The OG brotherhood on the motherchain. If you're not one of them, you're one of us";
 const IMAGE = "https://static.cdn.zo.xyz/media/banner-bb.png";
+const SHORTCUTICON =
+  "https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg";
 
 const MetaTags: React.FC<MetaTagsProps> = ({
   title = TITLE,
   description,
   image,
   canonical,
+  shortcutIcon = SHORTCUTICON,
   type = "website",
 }) => {
   const router = useRouter();
@@ -35,11 +39,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
     <Head>
       <title>{title || TITLE}</title>
       <meta name="title" content={title || TITLE} />
-      <link
-        rel="shortcut icon"
-        href="https://static.cdn.zo.xyz/app-media/logos/bitcoin-bros.jpeg"
-        type="image/jpeg"
-      />
+      <link rel="shortcut icon" href={shortcutIcon} type="image/jpeg" />
       <meta name="description" content={description || DESCRIPTION} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />

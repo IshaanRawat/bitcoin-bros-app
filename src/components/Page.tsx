@@ -6,11 +6,24 @@ interface PageProps {
   children: React.ReactNode[] | React.ReactNode;
   noVideo?: boolean;
   noAudio?: boolean;
+  metaTags?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    canonical?: string;
+    type?: string;
+    shortcutIcon?: string;
+  };
 }
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
-const Page: React.FC<PageProps> = ({ children, noAudio, noVideo }) => {
+const Page: React.FC<PageProps> = ({
+  children,
+  noAudio,
+  noVideo,
+  metaTags = {},
+}) => {
   const backgroundVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -34,7 +47,7 @@ const Page: React.FC<PageProps> = ({ children, noAudio, noVideo }) => {
     <main
       className={`flex flex-col justify-between bg-black h-screen overflow-hidden w-screen ${spaceGrotesk.className}`}
     >
-      <MetaTags />
+      <MetaTags {...metaTags} />
       {!noAudio && (
         <audio ref={audioRef} controls={false} playsInline autoPlay>
           <source
