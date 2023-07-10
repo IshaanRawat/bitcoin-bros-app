@@ -23,7 +23,7 @@ interface BBAxiosHeader extends HeadersDefaults {
   Authorization?: string;
 }
 
-export type AuthUser = {
+type AuthUser = {
   id: string;
   pid: string;
   first_name: string;
@@ -33,4 +33,11 @@ export type AuthUser = {
   email_address: string;
   access_groups: string[];
   roles?: string[];
+};
+
+type Steps = {
+  isWalletConnected: boolean;
+  isTwitterConnected: boolean;
+  isTwitterFollowed: boolean;
+  isWelcomeTweeted: boolean;
 };

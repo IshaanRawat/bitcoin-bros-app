@@ -32,4 +32,14 @@ const getUserIfExists = (user: string | null) => {
   }
 };
 
-export { getDeviceId, getUserIfExists };
+const formatAddress = (address: string) =>
+  `${address.slice(0, 6)}...${address.slice(-4)}`;
+
+const isPaymentAddress = (address: string) => {
+  if (address.startsWith("bc1q") || address.startsWith("34")) {
+    return true;
+  }
+  return false;
+};
+
+export { formatAddress, getDeviceId, getUserIfExists, isPaymentAddress };

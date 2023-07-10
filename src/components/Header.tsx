@@ -1,5 +1,6 @@
-import { useAuth, useUser } from "@/hooks";
+import { useAuth, useUser, useWalletAuthentication, useWeb3 } from "@/hooks";
 import { SignOut } from "@/icons";
+import { formatAddress } from "@/utils/auth";
 import Image from "next/image";
 import React from "react";
 import Loading from "./Loading";
@@ -9,6 +10,12 @@ interface HeaderProps {}
 const Header: React.FC<HeaderProps> = () => {
   const { user, isFetchingMe, isLoadingMe } = useUser();
   const { logout, isLoggedIn } = useAuth();
+  const { disconnect } = useWeb3();
+
+  const signout = () => {
+    disconnect();
+    logout();
+  };
 
   return (
     <header className="flex-shrink-0 p-4 lg:p-8 relative flex justify-between pointer-events-none">
@@ -18,7 +25,7 @@ const Header: React.FC<HeaderProps> = () => {
         width={48}
         height={48}
       />
-      {isLoggedIn && user?.walletAddress ? (
+      {isLoggedIn && user?.wallet_address ? (
         <div className="flex items-center space-x-4 pointer-events-auto">
           <Image
             src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
@@ -27,12 +34,11 @@ const Header: React.FC<HeaderProps> = () => {
             alt="bitcoin"
           />
           <span className="font-medium text-zinc-50">
-            {user.walletAddress.slice(0, 6)}...
-            {user.walletAddress.slice(-4)}
+            {formatAddress(user.wallet_address)}
           </span>
           <button
             className="w-8 h-8 flex items-center justify-center hover:bg-zinc-600 rounded-full"
-            onClick={logout}
+            onClick={signout}
           >
             <SignOut className="w-6 h-6 fill-red-500" />
           </button>

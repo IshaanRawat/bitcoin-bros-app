@@ -6,7 +6,10 @@ import LoginSection from "./LoginSection";
 import MetaTags from "./MetaTags";
 import Onboarding from "./Onboarding";
 import Page from "./Page";
+import PhallusMint from "./PhallusMint";
 import Pledges from "./Pledges";
+import Step from "./Step";
+import TwitterPledge from "./TwitterPledge";
 
 export {
   ConnectModal,
@@ -17,5 +20,8 @@ export {
   MetaTags,
   Onboarding,
   Page,
+  PhallusMint,
   Pledges,
+  Step,
+  TwitterPledge,
 };

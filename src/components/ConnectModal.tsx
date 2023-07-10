@@ -17,7 +17,7 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
 }) => {
   return createPortal(
     <div
-      className={`fixed top-0 left-0 p-4 w-full h-full flex items-center justify-center text-zinc-100 ${spaceGrotesk.className}`}
+      className={`fixed z-40 top-0 left-0 p-4 w-full h-full flex items-center justify-center text-zinc-100 ${spaceGrotesk.className}`}
     >
       <div
         className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
@@ -58,7 +58,7 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
               !(
                 typeof window.HiroWalletProvider !== "undefined" &&
                 typeof window.btc !== "undefined"
-              )
+              ) || true
             }
             className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -71,8 +71,8 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
               <span>Hiro</span>
               {typeof window.HiroWalletProvider !== "undefined" &&
               typeof window.btc !== "undefined" ? (
-                <span className="text-xs font-semibold uppercase text-green-400">
-                  Installed
+                <span className="text-xs font-semibold uppercase text-red-400">
+                  Not Supported
                 </span>
               ) : (
                 <span className="text-xs font-semibold uppercase text-zinc-500">
@@ -83,7 +83,7 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
           </button>
           <button
             onClick={connectWallet.bind(null, "UniSat")}
-            disabled={typeof window.unisat === "undefined" || true}
+            disabled={typeof window.unisat === "undefined"}
             className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <img
@@ -94,8 +94,8 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
             <div className="flex flex-col items-start">
               <span>UniSat</span>
               {typeof window.unisat !== "undefined" ? (
-                <span className="text-xs font-semibold uppercase text-red-400">
-                  Not Supported
+                <span className="text-xs font-semibold uppercase text-green-400">
+                  Installed
                 </span>
               ) : (
                 <span className="text-xs font-semibold uppercase text-zinc-500">

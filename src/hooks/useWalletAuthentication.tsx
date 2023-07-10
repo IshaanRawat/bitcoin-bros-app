@@ -1,4 +1,5 @@
 import config from "@/data/config.json";
+import mutations from "@/utils/mutations";
 import axios from "axios";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
@@ -10,12 +11,11 @@ const useWalletAuthentication = () => {
   const { login, isLoggedIn, logout } = useAuth();
 
   const { mutate: postAuth, isLoading: isLoadingAuth } = useMutation(
-    (data: any) =>
-      axios.post(`${config.BASE_API_URL}/api/v1/auth/login/web3/`, data)
+    mutations.AUTH_LOGIN
   );
 
   useEffect(() => {
-    console.log("isConnected", isConnected);
+    console.log("isConnected", isConnected, address);
     if (isConnected) {
       setTimeout(async () => {
         const signature = await signMessage(config.AUTH_SIGN_MESSAGE);
@@ -35,6 +35,8 @@ const useWalletAuthentication = () => {
           );
         }
       }, 0);
+    } else {
+      logout();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);

@@ -3,12 +3,14 @@ import React, { useEffect, useRef } from "react";
 import MetaTags from "./MetaTags";
 
 interface PageProps {
-  children: React.ReactNode[];
+  children: React.ReactNode[] | React.ReactNode;
+  noVideo?: boolean;
+  noAudio?: boolean;
 }
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
-const Page: React.FC<PageProps> = ({ children }) => {
+const Page: React.FC<PageProps> = ({ children, noAudio, noVideo }) => {
   const backgroundVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -33,26 +35,30 @@ const Page: React.FC<PageProps> = ({ children }) => {
       className={`flex flex-col justify-between bg-black h-screen overflow-hidden w-screen ${spaceGrotesk.className}`}
     >
       <MetaTags />
-      <audio ref={audioRef} controls={false} playsInline autoPlay>
-        <source
-          src="https://static.cdn.zo.xyz/web-media/bb-background-music.mp3"
-          type="audio/mpeg"
-        />
-      </audio>
-      <video
-        ref={backgroundVideoRef}
-        autoPlay
-        loop
-        controls={false}
-        playsInline
-        muted
-        className="fixed z-0 inset-0 w-full h-full bg-[#06041e] object-bottom landscape:object-cover pointer-events-none"
-      >
-        <source
-          src="https://cdn.discordapp.com/attachments/1115714210308050954/1118238055040553001/bikers_loop_06_1.mp4"
-          type="video/mp4"
-        />
-      </video>
+      {!noAudio && (
+        <audio ref={audioRef} controls={false} playsInline autoPlay>
+          <source
+            src="https://static.cdn.zo.xyz/web-media/bb-background-music.mp3"
+            type="audio/mpeg"
+          />
+        </audio>
+      )}
+      {!noVideo && (
+        <video
+          ref={backgroundVideoRef}
+          autoPlay
+          loop
+          controls={false}
+          playsInline
+          muted
+          className="fixed z-0 inset-0 w-full h-full bg-[#06041e] object-bottom landscape:object-cover pointer-events-none"
+        >
+          <source
+            src="https://cdn.discordapp.com/attachments/1115714210308050954/1118238055040553001/bikers_loop_06_1.mp4"
+            type="video/mp4"
+          />
+        </video>
+      )}
       {children}
     </main>
   );
