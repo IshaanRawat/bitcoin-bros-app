@@ -7,20 +7,24 @@ const useTwitter = () => {
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
 
   const { mutate: followBB, isLoading: isLoadingFollow } = useMutation(
-    mutations.CHALLENGES_TWITTER_FOLLOW
+    mutations.BROS_CHALLENGES_TWITTER_FOLLOW
   );
 
   const { mutate: postBB, isLoading: isLoadingPost } = useMutation(
-    mutations.CHALLENGES_TWITTER_POST
+    mutations.BROS_CHALLENGES_TWITTER_POST
   );
 
   const {
     refetch: connectTwitter,
     isLoading: isLoadingTwitterAuth,
     isFetching: isFetchingTwitterAuth,
-  } = useQuery(["twitter", "auth", "request"], queries.TWITTER_AUTH_REQUEST, {
-    enabled: false,
-  });
+  } = useQuery(
+    ["twitter", "auth", "request"],
+    queries.BROS_TWITTER_AUTH_REQUEST,
+    {
+      enabled: false,
+    }
+  );
 
   const connect = async () => {
     const data = await connectTwitter();

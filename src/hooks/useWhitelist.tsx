@@ -25,7 +25,7 @@ const useWhitelist = () => {
     data: whitelist,
   } = useQuery(
     ["webthree", "ordinals", "bitcoin-bros", "whitelist"],
-    queries.WHITELIST,
+    queries.BROS_WHITELIST,
     {
       enabled: isLoggedIn === true,
       retry: false,
@@ -36,9 +36,9 @@ const useWhitelist = () => {
     }
   );
 
-  const { mutate } = useMutation(mutations.WHITELIST);
+  const { mutate } = useMutation(mutations.BROS_WHITELIST);
   const { mutate: verifyTwitter } = useMutation(
-    mutations.CHALLENGES_TWITTER_CONNECT
+    mutations.BROS_CHALLENGES_TWITTER_CONNECT
   );
 
   const twitterProfile = useMemo(

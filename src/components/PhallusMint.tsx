@@ -22,7 +22,7 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
   const { connect } = useTwitter();
   const { twitterProfile } = useWhitelist();
 
-  const { mutate } = useMutation(mutations.MINT_INITIATE);
+  const { mutate } = useMutation(mutations.PHALLUS_MINT_INITIATE);
 
   const initiateMint = () => {
     createTransaction(0);

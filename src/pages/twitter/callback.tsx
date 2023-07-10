@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useMutation } from "react-query";
 
 const TwitterCallback: NextPage = () => {
-  const { mutate } = useMutation(mutations.TWITTER_OAUTH_VERIFY);
+  const { mutate } = useMutation(mutations.BROS_TWITTER_OAUTH_VERIFY);
 
   const [state, setState] = useState<"error" | "success" | "loading" | string>(
     "loading"
