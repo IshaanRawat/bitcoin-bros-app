@@ -9,6 +9,7 @@ import Page from "./Page";
 import PhallusMint from "./PhallusMint";
 import Pledges from "./Pledges";
 import Step from "./Step";
+import TwitterCallbackHandler from "./TwitterCallbackHandler";
 import TwitterPledge from "./TwitterPledge";
 
 export {
@@ -23,5 +24,6 @@ export {
   PhallusMint,
   Pledges,
   Step,
+  TwitterCallbackHandler,
   TwitterPledge,
 };

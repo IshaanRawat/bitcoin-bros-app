@@ -22,7 +22,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ setOnboarded }) => {
     isLoadingTwitterAuth,
     isRateLimitExceeded,
     post,
-  } = useTwitter();
+  } = useTwitter("BROS");
 
   const { user, refetchUser } = useUser();
 

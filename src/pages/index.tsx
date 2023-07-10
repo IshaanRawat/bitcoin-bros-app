@@ -16,11 +16,11 @@ import { useMemo } from "react";
 
 const Home: NextPage = () => {
   const { isLoggedIn } = useAuth();
-  const { connect, follow, post } = useTwitter();
+  const { connect, follow, post } = useTwitter("BROS");
 
   const whitelistTweet = useMemo(randomTweetMessage, []);
 
-  const { steps, twitterProfile, refetch } = useWhitelist();
+  const { steps, twitterProfile, refetch } = useWhitelist("BROS");
 
   return (
     <Page>

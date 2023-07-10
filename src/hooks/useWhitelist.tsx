@@ -8,7 +8,7 @@ import { Steps } from "../..";
 import useAuth from "./useAuth";
 import useWeb3 from "./useWeb3";
 
-const useWhitelist = () => {
+const useWhitelist = (collection: "PHALLUS" | "BROS") => {
   const [steps, setSteps] = useState<Steps>({
     isWalletConnected: false,
     isTwitterConnected: false,
@@ -25,7 +25,7 @@ const useWhitelist = () => {
     data: whitelist,
   } = useQuery(
     ["webthree", "ordinals", "bitcoin-bros", "whitelist"],
-    queries.BROS_WHITELIST,
+    collection === "BROS" ? queries.BROS_WHITELIST : queries.PHALLUS_WHITELIST,
     {
       enabled: isLoggedIn === true,
       retry: false,
@@ -36,9 +36,15 @@ const useWhitelist = () => {
     }
   );
 
-  const { mutate } = useMutation(mutations.BROS_WHITELIST);
+  const { mutate } = useMutation(
+    collection === "BROS"
+      ? mutations.BROS_WHITELIST
+      : mutations.PHALLUS_WHITELIST
+  );
   const { mutate: verifyTwitter } = useMutation(
-    mutations.BROS_CHALLENGES_TWITTER_CONNECT
+    collection === "BROS"
+      ? mutations.BROS_CHALLENGES_TWITTER_CONNECT
+      : mutations.PHALLUS_CHALLENGES_TWITTER_CONNECT
   );
 
   const twitterProfile = useMemo(

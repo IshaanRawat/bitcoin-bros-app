@@ -19,8 +19,8 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
   const { openConnectModal } = useWalletAuthentication();
   const { createTransaction } = useWeb3();
   const { user } = useUser();
-  const { connect } = useTwitter();
-  const { twitterProfile } = useWhitelist();
+  const { connect } = useTwitter("PHALLUS");
+  const { twitterProfile } = useWhitelist("PHALLUS");
 
   const { mutate } = useMutation(mutations.PHALLUS_MINT_INITIATE);
 

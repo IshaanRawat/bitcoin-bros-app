@@ -3,7 +3,8 @@ import queries from "@/utils/queries";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { EmptyFunction, Tweet } from "../..";
-const useTwitter = () => {
+
+const useTwitter = (collection: "PHALLUS" | "BROS") => {
   const [isRateLimitExceeded, setRateLimitExceeded] = useState<boolean>(false);
 
   const { mutate: followBB, isLoading: isLoadingFollow } = useMutation(
@@ -20,7 +21,9 @@ const useTwitter = () => {
     isFetching: isFetchingTwitterAuth,
   } = useQuery(
     ["twitter", "auth", "request"],
-    queries.BROS_TWITTER_AUTH_REQUEST,
+    collection === "BROS"
+      ? queries.BROS_TWITTER_AUTH_REQUEST
+      : queries.PHALLUS_TWITTER_AUTH_REQUEST,
     {
       enabled: false,
     }
