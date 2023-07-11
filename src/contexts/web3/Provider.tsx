@@ -207,7 +207,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         const signPsbtOptions: SignTransactionOptions = {
           payload: {
             network: {
-              type: "Testnet",
+              type: config.BITCOIN_NETWORK as "Mainnet" | "Testnet",
             },
             message: "Sign Transaction",
             psbtBase64,
