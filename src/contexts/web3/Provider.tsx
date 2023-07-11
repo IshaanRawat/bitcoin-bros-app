@@ -1,5 +1,10 @@
 import { ConnectModal } from "@/components";
+import config from "@/data/config.json";
 import { isPaymentAddress } from "@/utils/auth";
+import queries from "@/utils/queries";
+import { getPSBTBase64 } from "@/utils/web3";
+import { base64, hex } from "@scure/base";
+import * as btc from "micro-btc-signer";
 import React, {
   useCallback,
   useEffect,
@@ -27,6 +32,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     payment: "",
     ordinal: "",
   });
+  const [paymentPublicKey, setPaymentPublicKey] = useState<string>("");
   const [connectedWallet, setConnectedWallet] = useState<WalletName | null>(
     null
   );
@@ -56,7 +62,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         const signMessageOptions: any = {
           payload: {
             network: {
-              type: "Mainnet",
+              type: config.BITCOIN_NETWORK,
             },
             address: address.payment,
             message,
@@ -149,7 +155,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
                 purposes: ["ordinals", "payment"],
                 message: "Address for receiving Ordinals and payments",
                 network: {
-                  type: "Mainnet",
+                  type: config.BITCOIN_NETWORK,
                 },
               },
               onFinish: (response: any) => {
@@ -158,12 +164,13 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
                 ).address;
                 const paymentAddress = response.addresses.find(
                   (a: any) => a.purpose === "payment"
-                ).address;
+                );
                 console.log("connect success", response);
                 setAddress({
-                  payment: paymentAddress,
+                  payment: paymentAddress.address,
                   ordinal: ordinalAddress,
                 });
+                setPaymentPublicKey(paymentAddress.publicKey);
                 setConnectedWallet(walletName);
                 setConnectModalVisible(false);
               },
@@ -182,8 +189,46 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     [address.ordinal]
   );
 
-  const createTransaction = async (amount: number) => {
+  const createTransaction = async (
+    recipient: string,
+    amount: number,
+    fee: number
+  ) => {
     if (connectedWallet === "Xverse") {
+      return new Promise<string>(async (resolve) => {
+        const psbtBase64 = await getPSBTBase64(
+          address.payment,
+          paymentPublicKey,
+          recipient,
+          amount,
+          fee
+        );
+
+        const signPsbtOptions: SignTransactionOptions = {
+          payload: {
+            network: {
+              type: "Testnet",
+            },
+            message: "Sign Transaction",
+            psbtBase64,
+            broadcast: true,
+            inputsToSign: [{ address: address.payment, signingIndexes: [0] }],
+          },
+          onFinish: (response) => {
+            console.log(response);
+            return resolve(response.txId);
+          },
+
+          onCancel: () => {
+            console.log("canceled");
+            return resolve("");
+          },
+        };
+
+        return signTransaction(signPsbtOptions);
+      });
+    } else {
+      return "";
     }
   };
 

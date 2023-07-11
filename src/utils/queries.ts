@@ -15,6 +15,10 @@ const queries = {
     axios.get(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/`
     ),
+  PHALLUS_WHITELIST_UTXOS: () =>
+    axios.get(
+      `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/utxos/`
+    ),
   PHALLUS_TWITTER_AUTH_REQUEST: () =>
     axios.get(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/twitter/oauth/request/`

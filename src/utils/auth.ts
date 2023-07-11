@@ -36,7 +36,7 @@ const formatAddress = (address: string) =>
   `${address.slice(0, 6)}...${address.slice(-4)}`;
 
 const isPaymentAddress = (address: string) => {
-  if (address.startsWith("bc1q") || address.startsWith("34")) {
+  if (address.startsWith("tb1q") || address.startsWith("2")) {
     return true;
   }
   return false;

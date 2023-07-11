@@ -1,3 +1,4 @@
+import config from "@/data/config.json";
 import {
   useTwitter,
   useUser,
@@ -9,6 +10,7 @@ import { Check } from "@/icons";
 import { formatAddress } from "@/utils/auth";
 import mutations from "@/utils/mutations";
 import { isValidObject } from "@/utils/object";
+import { isValidString } from "@/utils/string";
 import Image from "next/image";
 import React from "react";
 import { useMutation } from "react-query";
@@ -24,11 +26,25 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
 
   const { mutate } = useMutation(mutations.PHALLUS_MINT_INITIATE);
 
-  const initiateMint = () => {
-    createTransaction(0);
-    // mutate({
-    //   payment_transaction_id: "123",
-    // });
+  const initiateMint = async () => {
+    const transationHash = await createTransaction(
+      config.PHALLUS_RECIPIENT_PAYMENT_ADDRESS,
+      200,
+      200
+    );
+
+    if (isValidString(transationHash)) {
+      mutate(
+        {
+          payment_transaction_id: transationHash,
+        },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+          },
+        }
+      );
+    }
   };
 
   return (

@@ -11,7 +11,9 @@ export const EMPTY = {
   },
   openConnectModal: () => {},
   disconnect: () => {},
-  createTransaction: async (amount: number) => {},
+  createTransaction: async (recipient: string, amount: number, fee: number) => {
+    return "";
+  },
 };
 
 interface Web3ContextInterface {
@@ -22,7 +24,11 @@ interface Web3ContextInterface {
   isConnected: boolean;
   signMessage: (message: string) => Promise<string | null>;
   openConnectModal: () => void;
-  createTransaction: (amount: number) => Promise<void>;
+  createTransaction: (
+    recipient: string,
+    amount: number,
+    fee: number
+  ) => Promise<string>;
   disconnect: () => void;
 }
 
