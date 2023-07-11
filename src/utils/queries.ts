@@ -7,9 +7,17 @@ const queries = {
     axios.get(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-bros/whitelist/`
     ),
+  COLLECTION_BROS: () =>
+    axios.get(
+      `${config.BASE_API_URL}/api/v1/webthree/ordinals/collection/bitcoin-bros/`
+    ),
   BROS_TWITTER_AUTH_REQUEST: () =>
     axios.get(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-bros/whitelist/twitter/oauth/request/`
+    ),
+  COLLECTION_PHALLUS: () =>
+    axios.get(
+      `${config.BASE_API_URL}/api/v1/webthree/ordinals/collection/bitcoin-phallus/`
     ),
   PHALLUS_WHITELIST: () =>
     axios.get(
