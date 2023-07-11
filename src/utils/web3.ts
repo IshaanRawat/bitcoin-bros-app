@@ -1,3 +1,4 @@
+import config from "@/data/config.json";
 import { base64, hex } from "@scure/base";
 import * as btc from "micro-btc-signer";
 import queries from "./queries";
@@ -10,20 +11,14 @@ const getPSBTBase64 = async (
   fee: number
 ) => {
   const tx = new btc.Transaction();
-
-  const bitcoinTestnet = {
-    bech32: "tb",
-    pubKeyHash: 0x6f,
-    scriptHash: 0xc4,
-    wif: 0xef,
-  };
-
+  const bitcoinNetwork =
+    config.BITCOIN_NETWORK === "Mainnet" ? btc.NETWORK : btc.TEST_NETWORK;
   const utxos = await queries.PHALLUS_WHITELIST_UTXOS();
   const utxo = utxos.data.results[0];
 
   const publicKey = hex.decode(paymentPublicKey);
-  const p2wpkh = btc.p2wpkh(publicKey, bitcoinTestnet);
-  const p2sh = btc.p2sh(p2wpkh, bitcoinTestnet);
+  const p2wpkh = btc.p2wpkh(publicKey, bitcoinNetwork);
+  const p2sh = btc.p2sh(p2wpkh, bitcoinNetwork);
 
   tx.addInput({
     txid: utxo.txid,
@@ -35,11 +30,11 @@ const getPSBTBase64 = async (
     redeemScript: p2sh.redeemScript,
   });
 
-  tx.addOutputAddress(recipient, BigInt(amount), bitcoinTestnet);
+  tx.addOutputAddress(recipient, BigInt(amount), bitcoinNetwork);
   tx.addOutputAddress(
     paymentAddress,
     BigInt(utxo.value - amount - fee),
-    bitcoinTestnet
+    bitcoinNetwork
   );
 
   const psbt0 = tx.toPSBT(0);
