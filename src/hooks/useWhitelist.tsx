@@ -19,7 +19,6 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
   const { address } = useWeb3();
 
   const {
-    isLoading,
     error,
     refetch,
     data: whitelist,
@@ -45,6 +44,11 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
     collection === "BROS"
       ? mutations.BROS_CHALLENGES_TWITTER_CONNECT
       : mutations.PHALLUS_CHALLENGES_TWITTER_CONNECT
+  );
+  const { mutate: verifyChallenges } = useMutation(
+    collection === "BROS"
+      ? mutations.BROS_CHALLENGES_VERIFY
+      : mutations.PHALLUS_CHALLENGES_VERIFY
   );
 
   const twitterProfile = useMemo(
@@ -96,6 +100,22 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
           }
         );
       }
+      if (
+        whitelist.challenges_completed.includes("twitter-connect") &&
+        whitelist.status === "pending" &&
+        collection === "PHALLUS"
+      ) {
+        verifyChallenges(
+          {},
+          {
+            onSuccess: (data) => {
+              if (data.data.success) {
+                refetch();
+              }
+            },
+          }
+        );
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [whitelist]);
@@ -132,6 +152,7 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
 
   return {
     refetch,
+    verifyChallenges,
     steps,
     twitterProfile,
   };

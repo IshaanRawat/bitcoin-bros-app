@@ -29,6 +29,11 @@ const mutations = {
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-bros/whitelist/challenges/twitter-post/`,
       data
     ),
+  BROS_CHALLENGES_VERIFY: (data: any) =>
+    axios.post(
+      `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-bros/whitelist/challenges/verify/`,
+      data
+    ),
   PHALLUS_WHITELIST: (data: any) =>
     axios.post(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/`,
@@ -37,6 +42,11 @@ const mutations = {
   PHALLUS_TWITTER_OAUTH_VERIFY: (data: any) =>
     axios.post(
       `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/twitter/oauth/verify/`,
+      data
+    ),
+  PHALLUS_CHALLENGES_VERIFY: (data: any) =>
+    axios.post(
+      `${config.BASE_API_URL}/api/v1/webthree/ordinals/bitcoin-phallus/whitelist/challenges/verify/`,
       data
     ),
   PHALLUS_CHALLENGES_TWITTER_CONNECT: (data: any) =>
