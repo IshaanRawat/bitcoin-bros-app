@@ -1,10 +1,7 @@
 import { ConnectModal } from "@/components";
 import config from "@/data/config.json";
 import { isPaymentAddress } from "@/utils/auth";
-import queries from "@/utils/queries";
-import { getPSBTBase64 } from "@/utils/web3";
-import { base64, hex } from "@scure/base";
-import * as btc from "micro-btc-signer";
+import { getPSBT } from "@/utils/web3";
 import React, {
   useCallback,
   useEffect,
@@ -92,6 +89,8 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
           console.log("UniSat Wallet is installed!");
           try {
             const accounts = await window.unisat.requestAccounts();
+            let publicKey = await window.unisat.getPublicKey();
+            setPaymentPublicKey(publicKey);
             console.log("connect success", accounts);
             if (isPaymentAddress(accounts[0])) {
               if (address.ordinal !== "") {
@@ -111,7 +110,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
                 ordinal: accounts[0],
               }));
               setConnectedWallet(walletName);
-              alert("Select Native Segvit Address from UniSat settings now.");
+              alert("Select Nested Segwit Address from UniSat settings now.");
             }
           } catch (e) {
             console.log("connect failed");
@@ -196,7 +195,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   ) => {
     if (connectedWallet === "Xverse") {
       return new Promise<string>(async (resolve) => {
-        const psbtBase64 = await getPSBTBase64(
+        const psbt = await getPSBT(
           address.payment,
           paymentPublicKey,
           recipient,
@@ -210,7 +209,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
               type: config.BITCOIN_NETWORK as "Mainnet" | "Testnet",
             },
             message: "Sign Transaction",
-            psbtBase64,
+            psbtBase64: psbt.base64,
             broadcast: true,
             inputsToSign: [{ address: address.payment, signingIndexes: [0] }],
           },
@@ -227,6 +226,17 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
 
         return signTransaction(signPsbtOptions);
       });
+    } else if (connectedWallet === "UniSat") {
+      const psbt = await getPSBT(
+        address.payment,
+        paymentPublicKey,
+        recipient,
+        amount,
+        fee
+      );
+      const signedPSBT = await window.unisat.signPsbt(psbt.hex);
+      const txId = await window.unisat.pushPsbt(signedPSBT);
+      return txId;
     } else {
       return "";
     }
