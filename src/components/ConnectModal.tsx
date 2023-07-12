@@ -53,35 +53,6 @@ const ConnectModal: React.FC<ConnectModalProps> = ({
             </div>
           </button>
           <button
-            onClick={connectWallet.bind(null, "Hiro")}
-            disabled={
-              !(
-                typeof window.HiroWalletProvider !== "undefined" &&
-                typeof window.btc !== "undefined"
-              ) || true
-            }
-            className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <img
-              src="https://assets.website-files.com/62cd53cfaed4257f165f6576/632b19335916e41bfcd20268_favicon-32x32.png"
-              alt="hiro"
-              className="w-6 h-6 rounded-full"
-            />
-            <div className="flex flex-col items-start">
-              <span>Hiro</span>
-              {typeof window.HiroWalletProvider !== "undefined" &&
-              typeof window.btc !== "undefined" ? (
-                <span className="text-xs font-semibold uppercase text-red-400">
-                  Not Supported
-                </span>
-              ) : (
-                <span className="text-xs font-semibold uppercase text-zinc-500">
-                  Not Installed
-                </span>
-              )}
-            </div>
-          </button>
-          <button
             onClick={connectWallet.bind(null, "UniSat")}
             disabled={typeof window.unisat === "undefined"}
             className="w-full flex items-center justify-start p-4 border border-zinc-500 space-x-4 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
