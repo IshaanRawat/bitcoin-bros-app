@@ -13,12 +13,14 @@ import { isValidObject } from "@/utils/object";
 import queries from "@/utils/queries";
 import { convertStringKebabToTitle, isValidString } from "@/utils/string";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useMutation, useQuery } from "react-query";
 
-interface PhallusMintProps {}
+interface PhallusMintProps {
+  setMinted: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const PhallusMint: React.FC<PhallusMintProps> = () => {
+const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
   const { openConnectModal } = useWalletAuthentication();
   const { createTransaction } = useWeb3();
   const { user } = useUser();
@@ -49,6 +51,31 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
     );
   };
 
+  const mintProcess = useMemo(() => {
+    if (isValidObject(mintStatus)) {
+      if (
+        ["inscription-revealed", "inscription-tweeted"].includes(
+          mintStatus.status
+        )
+      ) {
+        return "completed";
+      } else {
+        return "in-progress";
+      }
+    } else {
+      return null;
+    }
+  }, [mintStatus]);
+
+  useEffect(() => {
+    if (mintProcess === "completed") {
+      setMinted(true);
+    } else {
+      setMinted(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mintProcess]);
+
   const initiateMint = async () => {
     const transationHash = await createTransaction(
       config.PHALLUS_RECIPIENT_PAYMENT_ADDRESS,
@@ -72,7 +99,33 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
   };
 
   return (
-    phallus && (
+    phallus &&
+    (mintProcess != null ? (
+      <div className="p-4 flex flex-col items-stretch">
+        <div className="flex items-center justify-between">
+          <span className="text-xl">
+            {convertStringKebabToTitle(mintStatus.status)}
+          </span>
+          <div className="relative -left-4">
+            <span className="bit-loader-white" />
+          </div>
+        </div>
+        <div className="flex flex-col items-stretch">
+          <button
+            className="bg-zinc-100 w-full py-3 px-4 mt-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+            onClick={openTransaction}
+          >
+            <Image
+              src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
+              width={24}
+              height={24}
+              alt="bitcoin"
+            />
+            <span className="font-medium text-black">View Transaction</span>
+          </button>
+        </div>
+      </div>
+    ) : (
       <div className="p-4 flex flex-col items-stretch">
         <div className="flex items-center justify-between">
           <span className="text-xl">Free Mint</span>
@@ -142,49 +195,23 @@ const PhallusMint: React.FC<PhallusMintProps> = () => {
               <span className="font-medium text-black">Connect Twitter</span>
             </button>
           )}
-          {isValidObject(mintStatus) && isValidString(mintStatus.status) ? (
-            <button
-              className="bg-zinc-100 w-full py-3 px-4 flex items-center space-x-4 justify-between"
-              onClick={openTransaction}
-            >
-              <div className="flex items-center space-x-4">
-                <Image
-                  src="https://static.cdn.zo.xyz/media/phallus.png"
-                  width={24}
-                  className="rounded-full"
-                  height={24}
-                  alt="bitcoin"
-                />
-                <div className="flex flex-col items-start">
-                  <span className="font-medium text-black text-sm">
-                    {convertStringKebabToTitle(mintStatus.status)}
-                  </span>
-                  <span className="text-zinc-600 text-xs">
-                    Click to view transaction
-                  </span>
-                </div>
-              </div>
-              <Check />
-            </button>
-          ) : (
-            <button
-              className="bg-zinc-100 w-full py-3 px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
-              disabled={!isValidObject(twitterProfile)}
-              onClick={initiateMint}
-            >
-              <Image
-                src="https://static.cdn.zo.xyz/media/phallus.png"
-                width={24}
-                className="rounded-full"
-                height={24}
-                alt="bitcoin"
-              />
-              <span className="font-medium text-black">Mint Phallus</span>
-            </button>
-          )}
+          <button
+            className="bg-zinc-100 w-full py-3 px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+            disabled={!isValidObject(twitterProfile)}
+            onClick={initiateMint}
+          >
+            <Image
+              src="https://static.cdn.zo.xyz/media/phallus.png"
+              width={24}
+              className="rounded-full"
+              height={24}
+              alt="bitcoin"
+            />
+            <span className="font-medium text-black">Mint Phallus</span>
+          </button>
         </div>
       </div>
-    )
+    ))
   );
 };
 
