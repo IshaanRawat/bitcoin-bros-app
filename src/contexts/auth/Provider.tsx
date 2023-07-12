@@ -87,12 +87,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoggedIn(false);
     setUser(null);
     localStorage.clear();
-    setTimeout(() => {
-      queryClient.clear();
-      queryClient.removeQueries();
-      queryClient.invalidateQueries();
-      queryClient.resetQueries();
-    }, 1000);
+    queryClient.clear();
+    queryClient.removeQueries();
     const _deviceId = getDeviceId();
     localStorage.setItem(`bb-device-id`, _deviceId);
     console.log("generating device id: ", _deviceId);

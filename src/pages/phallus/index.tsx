@@ -12,11 +12,11 @@ const meta = {
 };
 
 const Phallus: NextPage = () => {
-  const [hasMinted, setMinted] = useState(true);
+  const [hasMinted, setMinted] = useState(false);
 
   return (
     <Page noVideo metaTags={meta}>
-      <div className="fixed top-0 inset-x-0">
+      <div className="fixed top-0 inset-x-0 z-30">
         <Header />
       </div>
       {!hasMinted ? (
