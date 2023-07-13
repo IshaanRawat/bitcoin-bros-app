@@ -14,7 +14,11 @@ const getPSBT = async (
   const bitcoinNetwork =
     config.BITCOIN_NETWORK === "Mainnet" ? btc.NETWORK : btc.TEST_NETWORK;
   const utxos = await queries.PHALLUS_WHITELIST_UTXOS();
-  const utxo = utxos.data.results[utxos.data.results.length - 1];
+  const _utxos = utxos?.data.results || [];
+  // get the utxo with the highest value
+  const highestUtxo = _utxos.reduce((prev: any, current: any) =>
+    prev.value > current.value ? prev : current
+  );
 
   const publicKey = hex.decode(paymentPublicKey);
 
@@ -22,11 +26,11 @@ const getPSBT = async (
   const p2sh = btc.p2sh(p2wpkh, bitcoinNetwork);
 
   tx.addInput({
-    txid: utxo.txid,
-    index: utxo.vout,
+    txid: highestUtxo.txid,
+    index: highestUtxo.vout,
     witnessUtxo: {
       script: p2sh.script,
-      amount: BigInt(utxo.value),
+      amount: BigInt(highestUtxo.value),
     },
     redeemScript: p2sh.redeemScript,
   });
@@ -34,7 +38,7 @@ const getPSBT = async (
   tx.addOutputAddress(recipient, BigInt(amount), bitcoinNetwork);
   tx.addOutputAddress(
     paymentAddress,
-    BigInt(utxo.value - amount - fee),
+    BigInt(highestUtxo.value - amount - fee),
     bitcoinNetwork
   );
 

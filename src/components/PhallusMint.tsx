@@ -42,6 +42,31 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
     }
   );
 
+  const { data: utxos } = useQuery(
+    ["phallus", "whitelist", "utxos"],
+    queries.PHALLUS_WHITELIST_UTXOS,
+    {
+      enabled: isValidObject(user) && !isValidObject(mintStatus),
+      retry: false,
+      select: (data) => data.data,
+    }
+  );
+
+  const hasBalance = useMemo(() => {
+    if (isValidObject(utxos)) {
+      const _utxos = utxos.results || [];
+      // get the utxo with the highest value
+      const highestUtxo = _utxos.reduce((prev: any, current: any) =>
+        prev.value > current.value ? prev : current
+      );
+      return (
+        highestUtxo.value >= config.PHALLUS_MINT_PRICE + config.PHALLUS_MINT_FEE
+      );
+    } else {
+      return false;
+    }
+  }, [utxos]);
+
   const openTransaction = () => {
     window.open(
       `https://mempool.space/${
@@ -71,6 +96,9 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
     if (mintProcess === "completed") {
       setMinted(true);
     } else {
+      if (mintProcess === "in-progress") {
+        setTimeout(refetchMintStatus, 5000);
+      }
       setMinted(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,8 +107,8 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
   const initiateMint = async () => {
     const transationHash = await createTransaction(
       config.PHALLUS_RECIPIENT_PAYMENT_ADDRESS,
-      200,
-      200
+      config.PHALLUS_MINT_PRICE,
+      config.PHALLUS_MINT_FEE
     );
 
     if (isValidString(transationHash)) {
@@ -112,7 +140,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
         </div>
         <div className="flex flex-col items-stretch">
           <button
-            className="bg-zinc-100 w-full py-3 px-4 mt-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+            className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 mt-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
             onClick={openTransaction}
           >
             <Image
@@ -121,7 +149,9 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
               height={24}
               alt="bitcoin"
             />
-            <span className="font-medium text-black">View Transaction</span>
+            <span className="font-medium text-black text-sm 2xl:text-base">
+              View Transaction
+            </span>
           </button>
         </div>
       </div>
@@ -135,7 +165,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
         </div>
         <div className="mt-4 flex flex-col items-stretch space-y-1">
           {isValidObject(user) ? (
-            <div className="py-3 px-4 flex bg-zinc-900 items-center justify-between">
+            <div className="py-2 px-3 2xl:py-3 2xl:px-4 flex bg-zinc-900 items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Image
                   src="https://static.cdn.zo.xyz/app-media/logos/bitcoin.svg"
@@ -143,7 +173,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
                   height={24}
                   alt="bitcoin"
                 />
-                <span className="font-medium text-zinc-50">
+                <span className="font-medium text-zinc-50 text-sm 2xl:text-base">
                   {formatAddress(user.wallet_address)}
                 </span>
               </div>
@@ -151,7 +181,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
             </div>
           ) : (
             <button
-              className="bg-zinc-100 w-full py-3 px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+              className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
               onClick={openConnectModal}
             >
               <Image
@@ -160,13 +190,13 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
                 height={24}
                 alt="bitcoin"
               />
-              <span className="font-medium text-black">
-                Connect Bitcoin Ordinals Wallet
+              <span className="font-medium text-black text-sm 2xl:text-base">
+                Connect Bitcoin Wallet
               </span>
             </button>
           )}
           {isValidObject(twitterProfile) ? (
-            <div className="py-3 px-4 flex bg-zinc-900 items-center justify-between">
+            <div className="py-2 px-3 2xl:py-3 2xl:px-4 flex bg-zinc-900 items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Image
                   src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
@@ -174,7 +204,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
                   height={24}
                   alt="bitcoin"
                 />
-                <span className="font-medium text-zinc-50">
+                <span className="font-medium text-zinc-50 text-sm 2xl:text-base">
                   @{twitterProfile.username}
                 </span>
               </div>
@@ -182,7 +212,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
             </div>
           ) : (
             <button
-              className="bg-zinc-100 w-full py-3 px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+              className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
               disabled={!isValidObject(user)}
               onClick={connect}
             >
@@ -192,23 +222,63 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
                 height={24}
                 alt="bitcoin"
               />
-              <span className="font-medium text-black">Connect Twitter</span>
+              <span className="font-medium text-black text-sm 2xl:text-base">
+                Connect Twitter
+              </span>
             </button>
           )}
-          <button
-            className="bg-zinc-100 w-full py-3 px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
-            disabled={!isValidObject(twitterProfile)}
-            onClick={initiateMint}
-          >
-            <Image
-              src="https://static.cdn.zo.xyz/media/phallus.png"
-              width={24}
-              className="rounded-full"
-              height={24}
-              alt="bitcoin"
-            />
-            <span className="font-medium text-black">Mint Phallus</span>
-          </button>
+          {isValidObject(user) && !isValidObject(mintStatus) ? (
+            hasBalance ? (
+              <button
+                className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+                disabled={!isValidObject(twitterProfile)}
+                onClick={initiateMint}
+              >
+                <Image
+                  src="https://static.cdn.zo.xyz/media/phallus.png"
+                  width={24}
+                  className="rounded-full"
+                  height={24}
+                  alt="bitcoin"
+                />
+                <span className="font-medium text-black text-sm 2xl:text-base">
+                  Mint Phallus
+                </span>
+              </button>
+            ) : (
+              <div className="py-2 px-3 2xl:py-3 2xl:px-4 flex bg-zinc-900 items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Image
+                    src="https://static.cdn.zo.xyz/media/phallus.png"
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                    alt="bitcoin"
+                  />
+                  <span className="font-medium text-zinc-50 text-sm 2xl:text-base">
+                    Low Balance, Cannot Mint
+                  </span>
+                </div>
+              </div>
+            )
+          ) : (
+            <button
+              className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+              disabled={!isValidObject(twitterProfile)}
+              onClick={initiateMint}
+            >
+              <Image
+                src="https://static.cdn.zo.xyz/media/phallus.png"
+                width={24}
+                className="rounded-full"
+                height={24}
+                alt="bitcoin"
+              />
+              <span className="font-medium text-black text-sm 2xl:text-base">
+                Mint Phallus
+              </span>
+            </button>
+          )}
         </div>
       </div>
     ))
