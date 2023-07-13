@@ -83,12 +83,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     axios.defaults.headers = customAxiosHeaders as any;
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = () => {
     setLoggedIn(false);
     setUser(null);
     localStorage.clear();
     queryClient.clear();
     queryClient.removeQueries();
+    queryClient.invalidateQueries();
+    queryClient.resetQueries();
+    queryClient.getQueryCache().clear();
+    queryClient.getMutationCache().clear();
     const _deviceId = getDeviceId();
     localStorage.setItem(`bb-device-id`, _deviceId);
     console.log("generating device id: ", _deviceId);
@@ -104,7 +108,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       "client-key": config.CLIENT_KEY || "",
     };
     axios.defaults.headers = customAxiosHeaders as any;
-  }, [queryClient]);
+  };
 
   const login = (user: AuthUser, token: string, validTill: number) => {
     localStorage.setItem(`bb-token`, token);

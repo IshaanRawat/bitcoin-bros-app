@@ -36,12 +36,12 @@ const Header: React.FC<HeaderProps> = () => {
           <span className="font-medium text-zinc-50">
             {formatAddress(user.wallet_address)}
           </span>
-          {/* <button
+          <button
             className="w-8 h-8 flex items-center justify-center hover:bg-zinc-600 rounded-full"
             onClick={signout}
           >
             <SignOut className="w-6 h-6 fill-red-500" />
-          </button> */}
+          </button>
         </div>
       ) : null}
 
