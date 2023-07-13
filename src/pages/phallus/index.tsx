@@ -1,8 +1,9 @@
 import { Footer, Header, Page, PhallusMint } from "@/components";
+import { useAuth } from "@/hooks";
 import queries from "@/utils/queries";
 import { NextPage } from "next";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const meta = {
@@ -16,6 +17,8 @@ const meta = {
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
 
+  const { isLoggedIn } = useAuth();
+
   const { data: mintStatus } = useQuery(
     ["phallus", "mint"],
     queries.PHALLUS_MINT_STATUS,
@@ -25,6 +28,12 @@ const Phallus: NextPage = () => {
       select: (data) => data.data,
     }
   );
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setMinted(false);
+    }
+  }, [isLoggedIn]);
 
   const openOrdinal = () => {
     window.open(`https://ord.io/content/${mintStatus.ordinal_id}`, "_blank");
