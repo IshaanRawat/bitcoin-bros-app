@@ -102,6 +102,8 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
     } else {
       if (mintProcess === "in-progress") {
         setStartFetching(true);
+      } else {
+        setStartFetching(false);
       }
       setMinted(false);
     }
