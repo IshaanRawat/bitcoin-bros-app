@@ -13,7 +13,7 @@ import { isValidObject } from "@/utils/object";
 import queries from "@/utils/queries";
 import { convertStringKebabToTitle, isValidString } from "@/utils/string";
 import Image from "next/image";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 
 interface PhallusMintProps {
@@ -27,6 +27,8 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
   const { connect } = useTwitter("PHALLUS");
   const { twitterProfile } = useWhitelist("PHALLUS");
 
+  const [startFetching, setStartFetching] = useState<boolean>(false);
+
   const { mutate } = useMutation(mutations.PHALLUS_MINT_INITIATE);
   const { data: phallus } = useQuery(["phallus"], queries.COLLECTION_PHALLUS, {
     enabled: true,
@@ -38,6 +40,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
     {
       enabled: isValidObject(user),
       retry: false,
+      refetchInterval: startFetching ? 5000 : false,
       select: (data) => data.data,
     }
   );
@@ -94,10 +97,11 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
 
   useEffect(() => {
     if (mintProcess === "completed") {
+      setStartFetching(false);
       setMinted(true);
     } else {
       if (mintProcess === "in-progress") {
-        setTimeout(refetchMintStatus, 5000);
+        setStartFetching(true);
       }
       setMinted(false);
     }
