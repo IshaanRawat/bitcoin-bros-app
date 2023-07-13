@@ -1,7 +1,9 @@
 import { Footer, Header, Page, PhallusMint } from "@/components";
+import queries from "@/utils/queries";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
+import { useQuery } from "react-query";
 
 const meta = {
   title: "Bitcoin Inscribed Phalluses - 666",
@@ -13,6 +15,20 @@ const meta = {
 
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
+
+  const { data: mintStatus } = useQuery(
+    ["phallus", "mint"],
+    queries.PHALLUS_MINT_STATUS,
+    {
+      enabled: hasMinted,
+      retry: false,
+      select: (data) => data.data,
+    }
+  );
+
+  const openOrdinal = () => {
+    window.open(`https://ord.io/content/${mintStatus.ordinal_id}`, "_blank");
+  };
 
   return (
     <Page noVideo metaTags={meta}>
@@ -55,7 +71,7 @@ const Phallus: NextPage = () => {
             <div className="w-full h-full p-4 lg:p-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <div className="bg-black relative z-20">
                 <video
-                  className="w-full lg:w-[400px] h-[400px] object-cover"
+                  className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
                   autoPlay
                   loop
                   muted
@@ -76,12 +92,15 @@ const Phallus: NextPage = () => {
         <section className="max-w-7xl w-full mx-auto h-screen bg-black lg:flex">
           <section className="flex-1 flex justify-center flex-col p-4 lg:p-8">
             <div className="overflow-y-auto">
-              <h1 className="text-3xl lg:text-5xl font-bold">
+              <h1 className="text-3xl leading-loose lg:text-5xl font-bold">
                 Congratulations for
                 <br />
                 holding your phallus ✊
               </h1>
-              <button className="bg-zinc-100 self-start max-w-sm w-full mt-10 py-4 px-6 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4">
+              <button
+                className="bg-zinc-100 self-start max-w-sm w-full mt-10 py-4 px-6 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+                onClick={openOrdinal}
+              >
                 <Image
                   src="https://static.cdn.zo.xyz/media/phallus.png"
                   width={24}
@@ -101,7 +120,7 @@ const Phallus: NextPage = () => {
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center">
             <div className="bg-black relative z-20">
               <video
-                className="w-full lg:w-[400px] h-[400px] object-cover"
+                className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
                 autoPlay
                 loop
                 muted
