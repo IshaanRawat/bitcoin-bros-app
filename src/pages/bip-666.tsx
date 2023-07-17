@@ -109,7 +109,7 @@ const Phallus: NextPage = () => {
                     playsInline
                   >
                     <source
-                      src="https://media.discordapp.net/attachments/1115714210308050954/1124317149612212315/for_mint_website_-_3.mp4"
+                      src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
                       type="video/mp4"
                     />
                   </video>
@@ -164,7 +164,7 @@ const Phallus: NextPage = () => {
                 playsInline
               >
                 <source
-                  src="https://media.discordapp.net/attachments/1115714210308050954/1124317149612212315/for_mint_website_-_3.mp4"
+                  src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
                   type="video/mp4"
                 />
               </video>
