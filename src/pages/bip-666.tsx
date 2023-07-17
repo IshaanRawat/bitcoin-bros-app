@@ -1,7 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { Footer, Header, Page, PhallusMint, Timer } from "@/components";
+import {
+  Footer,
+  Header,
+  Loading,
+  Page,
+  PhallusMint,
+  Timer,
+} from "@/components";
 import config from "@/data/config.json";
 import { useAuth } from "@/hooks";
+import { Download } from "@/icons";
+import { downloadImages } from "@/utils/files";
 import queries from "@/utils/queries";
 import { isValidString } from "@/utils/string";
 import { NextPage } from "next";
@@ -20,9 +29,8 @@ const meta = {
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
   const [hasImageErrored, setImageErrored] = useState(false);
-
-  const [imageLink, setImageLink] = useState<string>("");
-
+  const [isDownloading, setDownloading] = useState<boolean>(false);
+  const [imageId, setImageId] = useState<string>("");
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   useEffect(() => {
@@ -54,6 +62,18 @@ const Phallus: NextPage = () => {
       select: (data) => data.data,
     }
   );
+
+  const download = () => {
+    downloadImages(
+      [
+        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`,
+        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.png`,
+        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.gif`,
+      ],
+      `Phallus #${imageId}`,
+      setDownloading
+    );
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -110,7 +130,7 @@ const Phallus: NextPage = () => {
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1115714210308050954/1124317149234741309/BIP666.png')]">
             <div className="w-full h-full p-4 lg:p-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <div className="bg-black relative z-20">
-                {isValidString(imageLink) && !hasImageErrored && (
+                {isValidString(imageId) && !hasImageErrored && (
                   <div className="p-4 flex flex-col">
                     <span className="font-semibold text-sm">Peek-a-boo!</span>
                     <span className="text-xs mt-1">
@@ -119,14 +139,26 @@ const Phallus: NextPage = () => {
                   </div>
                 )}
                 <div className="relative">
-                  {isValidString(imageLink) ? (
+                  {isValidString(imageId) ? (
                     !hasImageErrored ? (
-                      <img
-                        src={imageLink}
-                        className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                        alt="phallus"
-                        onError={setImageErrored.bind(null, true)}
-                      />
+                      <div className="relative">
+                        <img
+                          src={`https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`}
+                          className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                          alt="phallus"
+                          onError={setImageErrored.bind(null, true)}
+                        />
+                        <div className="absolute left-2 p-2 bottom-2 bg-black opacity-95">
+                          Phallus #{imageId}
+                        </div>
+                        <button
+                          className="absolute right-2 bottom-2 bg-black opacity-95 font-semibold p-2"
+                          onClick={download}
+                          disabled={isDownloading}
+                        >
+                          <Download />
+                        </button>
+                      </div>
                     ) : (
                       <video
                         className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
@@ -159,7 +191,7 @@ const Phallus: NextPage = () => {
                   {secondsLeft > 0 && <Timer secondsLeft={secondsLeft} />}
                 </div>
                 <PhallusMint
-                  setImageLink={setImageLink}
+                  setImageId={setImageId}
                   setMinted={setMinted}
                   hasMintStarted={secondsLeft <= 0}
                 />
@@ -199,14 +231,26 @@ const Phallus: NextPage = () => {
           </section>
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center">
             <div className="bg-black relative z-20">
-              {isValidString(imageLink) ? (
+              {isValidString(imageId) ? (
                 !hasImageErrored ? (
-                  <img
-                    src={imageLink}
-                    className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                    alt="phallus"
-                    onError={setImageErrored.bind(null, true)}
-                  />
+                  <div className="relative">
+                    <img
+                      src={`https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`}
+                      className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                      alt="phallus"
+                      onError={setImageErrored.bind(null, true)}
+                    />
+                    <div className="absolute left-2 p-2 bottom-2 bg-black opacity-95">
+                      Phallus #{imageId}
+                    </div>
+                    <button
+                      className="absolute right-2 bottom-2 bg-black opacity-95 font-semibold p-2"
+                      onClick={download}
+                      disabled={isDownloading}
+                    >
+                      <Download />
+                    </button>
+                  </div>
                 ) : (
                   <video
                     className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
@@ -238,6 +282,7 @@ const Phallus: NextPage = () => {
             </div>
           </section>
           <Footer />
+          {isDownloading && <Loading />}
         </section>
       )}
     </Page>

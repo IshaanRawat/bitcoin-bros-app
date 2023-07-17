@@ -18,14 +18,14 @@ import { useMutation, useQuery } from "react-query";
 
 interface PhallusMintProps {
   setMinted: React.Dispatch<React.SetStateAction<boolean>>;
-  setImageLink: React.Dispatch<React.SetStateAction<string>>;
+  setImageId: React.Dispatch<React.SetStateAction<string>>;
   hasMintStarted: boolean;
 }
 
 const PhallusMint: React.FC<PhallusMintProps> = ({
   setMinted,
   hasMintStarted,
-  setImageLink,
+  setImageId,
 }) => {
   const { openConnectModal } = useWalletAuthentication();
   const { createTransaction } = useWeb3();
@@ -158,9 +158,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
   useEffect(() => {
     if (mintStatus != null) {
       if (!isNaN(mintStatus?.sequence_id) && mintStatus?.sequence_id > 0) {
-        setImageLink(
-          `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${mintStatus.sequence_id}.svg`
-        );
+        setImageId(`${mintStatus.sequence_id}`);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
