@@ -170,7 +170,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
           </button>
         </div>
       </div>
-    ) : (
+    ) : phallus?.supply_left >= 0 ? (
       <div className="p-4 flex flex-col items-stretch">
         <div className="flex items-center justify-between">
           <span className="text-xl">Free Mint</span>
@@ -294,6 +294,15 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
               </span>
             </button>
           )}
+        </div>
+      </div>
+    ) : (
+      <div className="p-4 flex flex-col items-stretch">
+        <div className="flex items-center justify-between">
+          <span className="text-xl">SOLD OUT</span>
+          <span className="text-xl">
+            {phallus.total_supply - phallus.supply_left}/{phallus.total_supply}
+          </span>
         </div>
       </div>
     ))
