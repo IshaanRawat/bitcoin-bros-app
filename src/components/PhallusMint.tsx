@@ -82,12 +82,24 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
   }, [utxos]);
 
   const openTransaction = () => {
-    window.open(
-      `https://mempool.space/${
-        config.BITCOIN_NETWORK === "Testnet" ? "testnet" : ""
-      }/tx/${mintStatus.payment_transaction_id}`,
-      "_blank"
-    );
+    if (
+      mintStatus.status.startsWith("inscription") &&
+      isValidString(mintStatus.reveal_transaction_id)
+    ) {
+      window.open(
+        `https://mempool.space/${
+          config.BITCOIN_NETWORK === "Testnet" ? "testnet" : ""
+        }/tx/${mintStatus.reveal_transaction_id}`,
+        "_blank"
+      );
+    } else {
+      window.open(
+        `https://mempool.space/${
+          config.BITCOIN_NETWORK === "Testnet" ? "testnet" : ""
+        }/tx/${mintStatus.payment_transaction_id}`,
+        "_blank"
+      );
+    }
   };
 
   const mintProcess = useMemo(() => {
