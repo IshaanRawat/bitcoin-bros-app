@@ -63,12 +63,17 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
     if (isValidObject(utxos)) {
       const _utxos = utxos.results || [];
       // get the utxo with the highest value
-      const highestUtxo = _utxos.reduce((prev: any, current: any) =>
-        prev.value > current.value ? prev : current
-      );
-      return (
-        highestUtxo.value >= config.PHALLUS_MINT_PRICE + config.PHALLUS_MINT_FEE
-      );
+      if (_utxos.length > 0) {
+        const highestUtxo = _utxos.reduce((prev: any, current: any) =>
+          prev.value > current.value ? prev : current
+        );
+        return (
+          highestUtxo.value >=
+          config.PHALLUS_MINT_PRICE + config.PHALLUS_MINT_FEE
+        );
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
