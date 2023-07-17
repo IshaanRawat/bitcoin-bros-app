@@ -77,6 +77,9 @@ const Phallus: NextPage = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       setMinted(false);
+      setImageErrored(false);
+      setDownloading(false);
+      setImageId("");
     }
   }, [isLoggedIn]);
 
