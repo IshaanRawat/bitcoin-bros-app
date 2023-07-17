@@ -84,9 +84,9 @@ const Phallus: NextPage = () => {
                 The vastness of the cosmos is reflected in the universe of
                 digital assets. Value lies in sharing and enriching our
                 collective experiences, not hoarding. The future holds a world
-                where a &lquo;Meme Coin&rquo; can rival a blue-chip stock, where
-                a digital kitten carries more clout than a luxury car. It&apos;s
-                weird, wacky, wonderful, and unstoppable. 🌌🚀
+                where a &ldquo;Meme Coin&rdquo; can rival a blue-chip stock,
+                where a digital kitten carries more clout than a luxury car.
+                It&apos;s weird, wacky, wonderful, and unstoppable. 🌌🚀
                 <br />
                 <br />
                 As we step into this brave new world with open minds and hearts,
