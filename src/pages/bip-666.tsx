@@ -74,16 +74,16 @@ const Phallus: NextPage = () => {
         <Header />
       </div>
       {!hasMinted ? (
-        <section className="w-screen h-full lg:h-screen overflow-auto lg:overflow-hidden lg:flex lg:items-stretch bg-black">
+        <section className="w-screen h-full lg:h-screen overflow-auto lg:overflow-hidden lg:flex lg:items-stretch bg-black text-zinc-100">
           <section className="flex-1 flex flex-col p-4 lg:p-8">
             <div className="lg:mt-24 mt-8 overflow-y-auto">
-              <h1 className="text-3xl lg:text-6xl font-bold">
+              <h1 className="text-3xl lg:text-6xl font-bold !text-zinc-100">
                 Bitcoin Inscribed Phalluses 666
               </h1>
-              <h2 className="font-semibold text-xl lg:text-3xl mt-8">
+              <h2 className="font-semibold text-xl lg:text-3xl mt-8 !text-zinc-100">
                 Big Bro says...
               </h2>
-              <p className="text-base lg:text-lg mt-4">
+              <p className="text-base lg:text-lg mt-4 !text-zinc-100">
                 The vastness of the cosmos is reflected in the universe of
                 digital assets. Value lies in sharing and enriching our
                 collective experiences, not hoarding. The future holds a world
