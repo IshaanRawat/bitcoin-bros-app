@@ -1,4 +1,5 @@
-import { Footer, Header, Page, PhallusMint } from "@/components";
+import { Footer, Header, Page, PhallusMint, Timer } from "@/components";
+import config from "@/data/config.json";
 import { useAuth } from "@/hooks";
 import queries from "@/utils/queries";
 import { NextPage } from "next";
@@ -16,6 +17,26 @@ const meta = {
 
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
+
+  const [secondsLeft, setSecondsLeft] = useState(0);
+
+  useEffect(() => {
+    let timer: any;
+    if (config.PHALLUS_MINT_EPOCH) {
+      timer = setInterval(() => {
+        const timeElapsed = Math.round(
+          config.PHALLUS_MINT_EPOCH - +new Date() / 1000
+        );
+        setSecondsLeft(timeElapsed);
+      }, 1000);
+    } else {
+      clearInterval(timer);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { isLoggedIn } = useAuth();
 
@@ -79,19 +100,26 @@ const Phallus: NextPage = () => {
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1115714210308050954/1124317149234741309/BIP666.png')]">
             <div className="w-full h-full p-4 lg:p-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <div className="bg-black relative z-20">
-                <video
-                  className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                >
-                  <source
-                    src="https://media.discordapp.net/attachments/1115714210308050954/1124317149612212315/for_mint_website_-_3.mp4"
-                    type="video/mp4"
-                  />
-                </video>
-                <PhallusMint setMinted={setMinted} />
+                <div className="relative">
+                  <video
+                    className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source
+                      src="https://media.discordapp.net/attachments/1115714210308050954/1124317149612212315/for_mint_website_-_3.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+
+                  {secondsLeft > 0 && <Timer secondsLeft={secondsLeft} />}
+                </div>
+                <PhallusMint
+                  setMinted={setMinted}
+                  hasMintStarted={secondsLeft <= 0}
+                />
               </div>
             </div>
           </section>

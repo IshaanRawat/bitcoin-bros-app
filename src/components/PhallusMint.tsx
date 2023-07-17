@@ -18,9 +18,13 @@ import { useMutation, useQuery } from "react-query";
 
 interface PhallusMintProps {
   setMinted: React.Dispatch<React.SetStateAction<boolean>>;
+  hasMintStarted: boolean;
 }
 
-const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
+const PhallusMint: React.FC<PhallusMintProps> = ({
+  setMinted,
+  hasMintStarted,
+}) => {
   const { openConnectModal } = useWalletAuthentication();
   const { createTransaction } = useWeb3();
   const { user } = useUser();
@@ -270,7 +274,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
           ) : (
             <button
               className="bg-zinc-100 w-full py-2 px-3 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
-              disabled={!isValidObject(twitterProfile)}
+              disabled={!isValidObject(twitterProfile) || !hasMintStarted}
               onClick={initiateMint}
             >
               <Image
@@ -281,7 +285,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({ setMinted }) => {
                 alt="bitcoin"
               />
               <span className="font-medium text-black text-sm 2xl:text-base">
-                Mint Phallus
+                {hasMintStarted ? "Mint Phallus" : "Mint Starting Soon"}
               </span>
             </button>
           )}
