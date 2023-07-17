@@ -1,15 +1,17 @@
 import * as React from "react";
 import { SVGProps, memo } from "react";
-
 const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
     width="1em"
     height="1em"
+    fill="none"
     {...props}
   >
-    <path d="m12.59 13-2.3 2.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4-4a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76 1 1 0 0 0-.21-.33l-4-4a1 1 0 1 0-1.42 1.42l2.3 2.29H3a1 1 0 0 0 0 2ZM12 2a10 10 0 0 0-9 5.55 1 1 0 0 0 1.8.9A8 8 0 1 1 12 20a7.93 7.93 0 0 1-7.16-4.45 1 1 0 0 0-1.8.9A10 10 0 1 0 12 2Z" />
+    <path
+      fill="#FF4545"
+      d="M8 2h6v2H8zM8 11h10v2H8zM8 22h6v-2H8zM2 8h2v8H2zM4 6h2v2H4zM20 11h2v2h-2zM18 9h2v2h-2zM16 7h2v2h-2zM18 13h2v2h-2zM16 15h2v2h-2zM6 4h2v2H6zM4 18h2v-2H4zM6 20h2v-2H6z"
+    />
   </svg>
 );
 const Memo = memo(SvgComponent);
