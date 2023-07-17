@@ -3,6 +3,7 @@ import { Footer, Header, Page, PhallusMint, Timer } from "@/components";
 import config from "@/data/config.json";
 import { useAuth } from "@/hooks";
 import queries from "@/utils/queries";
+import { isValidString } from "@/utils/string";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -19,6 +20,8 @@ const meta = {
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
   const [hasImageErrored, setImageErrored] = useState(false);
+
+  const [imageLink, setImageLink] = useState<string>("");
 
   const [secondsLeft, setSecondsLeft] = useState(0);
 
@@ -108,22 +111,47 @@ const Phallus: NextPage = () => {
             <div className="w-full h-full p-4 lg:p-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <div className="bg-black relative z-20">
                 <div className="relative">
-                  <video
-                    className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  >
-                    <source
-                      src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
-                      type="video/mp4"
-                    />
-                  </video>
+                  {isValidString(imageLink) ? (
+                    !hasImageErrored ? (
+                      <img
+                        src={imageLink}
+                        className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                        alt="phallus"
+                        onError={setImageErrored.bind(null, true)}
+                      />
+                    ) : (
+                      <video
+                        className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      >
+                        <source
+                          src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
+                          type="video/mp4"
+                        />
+                      </video>
+                    )
+                  ) : (
+                    <video
+                      className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    >
+                      <source
+                        src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
+                        type="video/mp4"
+                      />
+                    </video>
+                  )}
 
                   {secondsLeft > 0 && <Timer secondsLeft={secondsLeft} />}
                 </div>
                 <PhallusMint
+                  setImageLink={setImageLink}
                   setMinted={setMinted}
                   hasMintStarted={secondsLeft <= 0}
                 />
@@ -163,15 +191,29 @@ const Phallus: NextPage = () => {
           </section>
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center">
             <div className="bg-black relative z-20">
-              {mintStatus?.ordinal_id && !hasImageErrored && (
-                <img
-                  src={`https://ordinals.com/content/${mintStatus.ordinal_id}`}
-                  className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                  alt="phallus"
-                  onError={setImageErrored.bind(null, true)}
-                />
-              )}
-              {hasImageErrored && (
+              {isValidString(imageLink) ? (
+                !hasImageErrored ? (
+                  <img
+                    src={imageLink}
+                    className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                    alt="phallus"
+                    onError={setImageErrored.bind(null, true)}
+                  />
+                ) : (
+                  <video
+                    className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source
+                      src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                )
+              ) : (
                 <video
                   className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
                   autoPlay
