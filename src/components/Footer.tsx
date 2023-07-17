@@ -21,19 +21,6 @@ const Footer: React.FC<FooterProps> = () => {
           />
         </a>
         <a
-          href="https://t.me/+UC12QV-WDRA3YmVl"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-center rounded-full text-zinc-100"
-        >
-          <Image
-            src="https://static.cdn.zo.xyz/app-media/logos/telegram.svg"
-            width={24}
-            height={24}
-            alt="Telegram"
-          />
-        </a>
-        <a
           href="https://discord.gg/DFXmWrMEZA"
           target="_blank"
           rel="noreferrer"
