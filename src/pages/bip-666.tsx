@@ -66,9 +66,8 @@ const Phallus: NextPage = () => {
   const download = () => {
     downloadImages(
       [
-        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`,
-        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.png`,
-        // `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.gif`,
+        `https://nft-cdn.zo.xyz/bros/phallus/${imageId}.svg`,
+        `https://nft-cdn.zo.xyz/bros/phallus/${imageId}.png`,
       ],
       `Phallus #${imageId}`,
       setDownloading
@@ -143,7 +142,7 @@ const Phallus: NextPage = () => {
                     !hasImageErrored ? (
                       <div className="relative">
                         <img
-                          src={`https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`}
+                          src={`https://nft-cdn.zo.xyz/bros/phallus/${imageId}.svg`}
                           className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
                           alt="phallus"
                           onError={setImageErrored.bind(null, true)}
@@ -235,7 +234,7 @@ const Phallus: NextPage = () => {
                 !hasImageErrored ? (
                   <div className="relative">
                     <img
-                      src={`https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`}
+                      src={`https://nft-cdn.zo.xyz/bros/phallus/${imageId}.svg`}
                       className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
                       alt="phallus"
                       onError={setImageErrored.bind(null, true)}
