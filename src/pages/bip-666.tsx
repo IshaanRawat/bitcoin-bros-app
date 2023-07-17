@@ -68,7 +68,7 @@ const Phallus: NextPage = () => {
       [
         `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.svg`,
         `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.png`,
-        `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.gif`,
+        // `https://zo-nft.s3.ap-south-1.amazonaws.com/bros/phallus/${imageId}.gif`,
       ],
       `Phallus #${imageId}`,
       setDownloading
