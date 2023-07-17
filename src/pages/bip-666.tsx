@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Footer, Header, Page, PhallusMint, Timer } from "@/components";
 import config from "@/data/config.json";
 import { useAuth } from "@/hooks";
@@ -17,6 +18,7 @@ const meta = {
 
 const Phallus: NextPage = () => {
   const [hasMinted, setMinted] = useState(false);
+  const [hasImageErrored, setImageErrored] = useState(false);
 
   const [secondsLeft, setSecondsLeft] = useState(0);
 
@@ -57,7 +59,10 @@ const Phallus: NextPage = () => {
   }, [isLoggedIn]);
 
   const openOrdinal = () => {
-    window.open(`https://ord.io/content/${mintStatus.ordinal_id}`, "_blank");
+    window.open(
+      `https://magiceden.io/ordinals/item-details/${mintStatus.ordinal_id}`,
+      "_blank"
+    );
   };
 
   return (
@@ -158,18 +163,28 @@ const Phallus: NextPage = () => {
           </section>
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center">
             <div className="bg-black relative z-20">
-              <video
-                className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source
-                  src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
-                  type="video/mp4"
+              {mintStatus?.ordinal_id && !hasImageErrored && (
+                <img
+                  src={`https://ordinals.com/content/${mintStatus.ordinal_id}`}
+                  className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                  alt="phallus"
+                  onError={setImageErrored.bind(null, true)}
                 />
-              </video>
+              )}
+              {hasImageErrored && (
+                <video
+                  className="w-full h-[360px] lg:w-[320px] lg:h-[320px] 2xl:w-[400px] 2xl:h-[400px] object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source
+                    src="https://cdn.discordapp.com/attachments/1034805665878773890/1130504602358390814/Phallus_dance_crossfade_style_02.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+              )}
             </div>
           </section>
           <Footer />
