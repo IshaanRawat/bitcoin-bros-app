@@ -42,6 +42,27 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     return address.payment !== "" && address.ordinal !== "";
   }, [address]);
 
+  useEffect(() => {
+    const localPaymentAddress = localStorage.getItem("bb-p");
+    const localOrdinalAddress = localStorage.getItem("bb-o");
+    const localPublicKey = localStorage.getItem("bb-pk");
+    const connectedWallet = localStorage.getItem("bb-wallet");
+
+    if (
+      localPaymentAddress &&
+      localOrdinalAddress &&
+      localPublicKey &&
+      connectedWallet
+    ) {
+      setAddress({
+        payment: localPaymentAddress,
+        ordinal: localOrdinalAddress,
+      });
+      setPaymentPublicKey(localPublicKey);
+      setConnectedWallet(connectedWallet as WalletName);
+    }
+  }, []);
+
   const signMessage = async (message: string) => {
     if (connectedWallet === "UniSat") {
       let res = await window.unisat.signMessage(message);
@@ -99,6 +120,10 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
                   ordinal: a.ordinal,
                 }));
                 setConnectedWallet(walletName);
+                localStorage.setItem("bb-p", accounts[0]);
+                localStorage.setItem("bb-o", address.ordinal);
+                localStorage.setItem("bb-wallet", walletName);
+                localStorage.setItem("bb-pk", publicKey);
                 setConnectModalVisible(false);
                 isUnisatOnboarding.current = false;
               } else {
@@ -171,6 +196,11 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
                 });
                 setPaymentPublicKey(paymentAddress.publicKey);
                 setConnectedWallet(walletName);
+
+                localStorage.setItem("bb-p", paymentAddress.address);
+                localStorage.setItem("bb-o", ordinalAddress);
+                localStorage.setItem("bb-wallet", walletName);
+                localStorage.setItem("bb-pk", paymentAddress.publicKey);
                 setConnectModalVisible(false);
               },
               onCancel: () => alert("Request canceled"),
@@ -266,6 +296,7 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         address,
         isConnected,
         signMessage,
+        setAddress,
         createTransaction,
         openConnectModal,
         disconnect,

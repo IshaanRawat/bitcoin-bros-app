@@ -16,7 +16,7 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
     isWelcomeTweeted: false,
   });
   const { isLoggedIn } = useAuth();
-  const { address } = useWeb3();
+  const { address, setAddress } = useWeb3();
 
   const {
     error,
@@ -87,6 +87,12 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
 
   useEffect(() => {
     if (whitelist) {
+      if (whitelist.payment_address && whitelist.ordinal_address) {
+        setAddress({
+          payment: whitelist.payment_address,
+          ordinal: whitelist.ordinal_address,
+        });
+      }
       if (
         whitelist.twitter_oauth_completed &&
         !isValidObject(whitelist.twitter_ref_user)

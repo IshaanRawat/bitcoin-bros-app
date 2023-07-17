@@ -9,6 +9,7 @@ export const EMPTY = {
   signMessage: async (message: string) => {
     return null;
   },
+  setAddress: () => {},
   openConnectModal: () => {},
   disconnect: () => {},
   createTransaction: async (recipient: string, amount: number, fee: number) => {
@@ -22,6 +23,12 @@ interface Web3ContextInterface {
     ordinal: string;
   };
   isConnected: boolean;
+  setAddress: React.Dispatch<
+    React.SetStateAction<{
+      payment: string;
+      ordinal: string;
+    }>
+  >;
   signMessage: (message: string) => Promise<string | null>;
   openConnectModal: () => void;
   createTransaction: (
