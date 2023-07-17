@@ -21,7 +21,7 @@ const Footer: React.FC<FooterProps> = () => {
           />
         </a>
         <a
-          href="https://discord.gg/DFXmWrMEZA"
+          href="https://discord.gg/thezoworld"
           target="_blank"
           rel="noreferrer"
           className="flex items-center justify-center rounded-full text-zinc-100"
