@@ -157,7 +157,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
   return (
     phallus &&
     (mintProcess != null ? (
-      <div className="p-4 flex flex-col items-stretch">
+      <div className="p-4 flex flex-col items-stretch text-zinc-100">
         <div className="flex items-center justify-between">
           <span className="text-xl">
             {convertStringKebabToTitle(mintStatus.status)}
@@ -184,7 +184,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
         </div>
       </div>
     ) : phallus?.supply_left > 0 ? (
-      <div className="p-4 flex flex-col items-stretch">
+      <div className="p-4 flex flex-col items-stretch text-zinc-100">
         <div className="flex items-center justify-between">
           <span className="text-xl">Free Mint</span>
           <span className="text-xl">
@@ -310,7 +310,7 @@ const PhallusMint: React.FC<PhallusMintProps> = ({
         </div>
       </div>
     ) : (
-      <div className="p-4 flex flex-col items-stretch">
+      <div className="p-4 flex flex-col items-stretch text-zinc-100">
         <div className="flex items-center justify-between">
           <span className="text-xl">SOLD OUT</span>
           <span className="text-xl">

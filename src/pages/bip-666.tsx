@@ -70,7 +70,7 @@ const Phallus: NextPage = () => {
 
   return (
     <Page noVideo metaTags={meta}>
-      <div className="fixed top-0 inset-x-0 z-30">
+      <div className="fixed top-0 inset-x-0 z-30 text-zinc-100">
         <Header />
       </div>
       {!hasMinted ? (
