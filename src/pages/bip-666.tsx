@@ -110,6 +110,14 @@ const Phallus: NextPage = () => {
           <section className="flex-1 flex-shrink-0 h-screen lg:h-auto flex flex-col overflow-y-auto justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1115714210308050954/1124317149234741309/BIP666.png')]">
             <div className="w-full h-full p-4 lg:p-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <div className="bg-black relative z-20">
+                {isValidString(imageLink) && !hasImageErrored && (
+                  <div className="p-4 flex flex-col">
+                    <span className="font-semibold text-sm">Peek-a-boo!</span>
+                    <span className="text-xs mt-1">
+                      Here&apos;s your upcoming Phallus!
+                    </span>
+                  </div>
+                )}
                 <div className="relative">
                   {isValidString(imageLink) ? (
                     !hasImageErrored ? (
