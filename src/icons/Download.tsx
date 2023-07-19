@@ -10,7 +10,7 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      fill="#FF4545"
+      fill={props.fill || "#FF4545"}
       d="M2 20V10h2v10zM13 2v10h-2V2zM22 20V10h-2v10zM4 22v-2h16v2zM13 14v2h-2v-2zM15 12v2h-2v-2zM17 10v2h-2v-2zM11 12v2H9v-2zM9 10v2H7v-2z"
     />
   </svg>

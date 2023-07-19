@@ -158,7 +158,7 @@ const Phallus: NextPage = () => {
                           onClick={download}
                           disabled={isDownloading}
                         >
-                          <Download />
+                          <Download fill="#CFFF50" />
                         </button>
                       </div>
                     ) : (
@@ -250,7 +250,7 @@ const Phallus: NextPage = () => {
                       onClick={download}
                       disabled={isDownloading}
                     >
-                      <Download />
+                      <Download fill="#CFFF50" />
                     </button>
                   </div>
                 ) : (
