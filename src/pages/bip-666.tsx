@@ -222,7 +222,9 @@ const Phallus: NextPage = () => {
                   height={24}
                   alt="bitcoin"
                 />
-                <span className="font-medium text-black">View Phallus</span>
+                <span className="font-medium text-black">
+                  View Phallus on Magic Eden
+                </span>
               </button>
               <p className="mt-8">
                 With super excitement, we&apos;ve
