@@ -83,9 +83,9 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
         onError={setImageErrored.bind(null, true)}
       />
       <div className="flex flex-col flex-1 items-start px-8 pt-4 w-full bg-[url('https://static.cdn.zo.xyz/web-media/bitcoin-bros/phallus-card-pattern.svg')] bg-no-repeat bg-center bg-cover bg-size-500">
-        <span className="font-bold text-2xl">Phallus #{phallusId}</span>
-        <span className="font-semibold">Rank: 69</span>
-        <div className="grid grid-cols-2 w-full grid-rows-2 gap-4 mt-4">
+        <span className="font-bold text-3xl mt-2">Phallus #{phallusId}</span>
+        {/* <span className="font-semibold">Rank: 69</span> */}
+        <div className="grid grid-cols-2 w-full grid-rows-2 gap-4 mt-6">
           <div className="flex items-start space-x-2">
             <PhallusHead className="w-8 h-8" />
             <div className="flex flex-col">
