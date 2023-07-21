@@ -18,6 +18,7 @@ export default function Document() {
             }}
           />
         )}
+        <Script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.11.0/tsparticles.confetti.bundle.min.js"></Script>
       </Head>
       <body>
         {process.env.NODE_ENV === "production" && (

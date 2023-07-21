@@ -90,7 +90,7 @@ const TwitterCallbackHandler: React.FC<TwitterCallbackHandlerProps> = ({
         />
       </header>
       <section className="flex-1 flex justify-center pt-24 relative px-4 lg:px-8">
-        <div className="max-w-md w-full h-max flex flex-col items-center p-4 bg-zinc-800">
+        <div className="max-w-md w-full h-max flex flex-col items-center p-4 bg-zinc-800 text-z-white">
           <Image
             src="https://static.cdn.zo.xyz/app-media/logos/twitter-circle.svg"
             width={48}

@@ -33,9 +33,8 @@ const Home: NextPage = () => {
       <div className="w-full flex flex-col lg:flex-row items-center justify-center h-auto relative space-y-2 lg:space-x-8 lg:space-y-0 p-4 bg-[#ff9000]">
         <div className="flex items-center space-x-4">
           <Image
-            src="https://static.cdn.zo.xyz/media/phallus.png"
+            src="https://static.cdn.zo.xyz/web-media/bitcoin-bros/phallus.svg"
             width={24}
-            className="rounded-full"
             height={24}
             alt="bitcoin"
           />
@@ -45,14 +44,16 @@ const Home: NextPage = () => {
         </div>
         <div className="flex items-center space-x-4">
           <button
-            className="bg-zinc-100 py-2 px-4 text-lg bg-zinc-900 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
+            className="bg-zinc-100 text-zinc-50 py-2 px-4 text-lg bg-zinc-900 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
             onClick={openPhallus}
           >
             Mint Now
           </button>
         </div>
       </div>
-      <Header />
+      <div className="lg:px-4">
+        <Header />
+      </div>
       <section
         className={`flex-1 ${
           !isLoggedIn && "pt-[140px] lg:pt-[140px]"

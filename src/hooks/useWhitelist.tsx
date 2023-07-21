@@ -160,6 +160,7 @@ const useWhitelist = (collection: "PHALLUS" | "BROS") => {
     refetch,
     verifyChallenges,
     steps,
+    whitelist,
     twitterProfile,
   };
 };

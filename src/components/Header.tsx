@@ -1,4 +1,4 @@
-import { useAuth, useUser, useWalletAuthentication, useWeb3 } from "@/hooks";
+import { useAuth, useUser, useWeb3 } from "@/hooks";
 import { SignOut } from "@/icons";
 import { formatAddress } from "@/utils/auth";
 import Image from "next/image";
@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = () => {
   };
 
   return (
-    <header className="flex-shrink-0 p-4 lg:p-8 relative flex justify-between pointer-events-none">
+    <header className="flex-shrink-0 p-4 relative flex justify-between pointer-events-none">
       <Image
         src="https://static.cdn.zo.xyz/app-media/animojis/zobitcoin.gif"
         alt="zo"
@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = () => {
             {formatAddress(user.wallet_address)}
           </span>
           <button
-            className="w-8 h-8 flex items-center justify-center hover:bg-zinc-600 rounded-full"
+            className="w-8 h-8 flex items-center justify-center rounded-full"
             onClick={signout}
           >
             <SignOut className="w-6 h-6 fill-red-500" />
