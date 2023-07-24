@@ -1,12 +1,12 @@
 import {
-  AngleDown,
+  Cross,
   Download,
   Emoji,
   PhallusDress,
   PhallusEyewear,
   PhallusHead,
 } from "@/icons";
-import { downloadImages } from "@/utils/files";
+import { downloadFile } from "@/utils/files";
 import { isValidString } from "@/utils/string";
 import axios from "axios";
 import Image from "next/image";
@@ -20,7 +20,8 @@ interface PhallusCardProps {
 
 const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
   const [hasImageErrored, setImageErrored] = useState<boolean>(false);
-  const [isDownloading, setDownloading] = useState<boolean>(false);
+  const [isDownloadOptionsVisible, setDownloadOptionsVisible] =
+    useState<boolean>(false);
 
   const {
     data: phallusData,
@@ -59,17 +60,13 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
     }
   }, [phallusData]);
 
-  const download = () => {
-    downloadImages(
-      [
-        `https://nft-cdn.zo.xyz/bros/phallus/${phallusId}.svg`,
-        `https://nft-cdn.zo.xyz/bros/phallus/${phallusId}.png`,
-        `https://nft-cdn.zo.xyz/bros/phallus/${phallusId}.gif`,
-        `https://nft-cdn.zo.xyz/bros/phallus/${phallusId}.mp4`,
-      ],
-      `Phallus #${phallusId}`,
-      setDownloading
+  const download = (fileType: "gif" | "png" | "mp4") => {
+    downloadFile(
+      `https://nft-cdn.zo.xyz/bros/phallus/${phallusId}.${fileType}`,
+      fileType,
+      `Phallus #${phallusId}`
     );
+    setDownloadOptionsVisible(false);
   };
 
   return !hasImageErrored && !isLoading && !isFetching && !isError ? (
@@ -118,13 +115,46 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
           </div>
         </div>
       </div>
-      <button
-        className="px-8 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
-        onClick={download}
-      >
-        <span>Download</span>
-        <Download fill="#202020" />
-      </button>
+      {isDownloadOptionsVisible ? (
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col divide-y divide-z-black">
+          <button
+            className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
+            onClick={download.bind(null, "gif")}
+          >
+            <span>Download GIF</span>
+            <Download fill="#202020" />
+          </button>
+          <button
+            className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
+            onClick={download.bind(null, "png")}
+          >
+            <span>Download PNG</span>
+            <Download fill="#202020" />
+          </button>
+          <button
+            className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
+            onClick={download.bind(null, "mp4")}
+          >
+            <span>Download MP4</span>
+            <Download fill="#202020" />
+          </button>
+          <button
+            className="px-8 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
+            onClick={setDownloadOptionsVisible.bind(null, false)}
+          >
+            <span>Download</span>
+            <Cross />
+          </button>
+        </div>
+      ) : (
+        <button
+          className="px-8 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-between"
+          onClick={setDownloadOptionsVisible.bind(null, true)}
+        >
+          <span>Download</span>
+          <Download fill="#202020" />
+        </button>
+      )}
     </div>
   ) : (
     <Image
