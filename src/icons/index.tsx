@@ -1,6 +1,7 @@
 import AngleDown from "./AngleDown";
 import Check from "./Check";
 import Circle from "./Circle";
+import Cross from "./Cross";
 import Download from "./Download";
 import Emoji from "./Emoji";
 import Error from "./Error";
@@ -14,6 +15,7 @@ export {
   AngleDown,
   Check,
   Circle,
+  Cross,
   Download,
   Emoji,
   Error,
