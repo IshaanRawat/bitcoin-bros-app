@@ -1,4 +1,5 @@
 import { saveAs } from "file-saver";
+import { toPng } from "html-to-image";
 import JSZip from "jszip";
 
 const downloadImages = async (
@@ -63,4 +64,17 @@ const downloadFile = (
     });
 };
 
-export { downloadFile, downloadImages };
+const downloadElement = (element: HTMLDivElement, name: string) => {
+  toPng(element, { cacheBust: false })
+    .then((dataUrl) => {
+      const link = document.createElement("a");
+      link.download = `${name}.png`;
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export { downloadElement, downloadFile, downloadImages };

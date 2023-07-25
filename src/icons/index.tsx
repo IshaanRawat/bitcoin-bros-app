@@ -10,6 +10,7 @@ import PhallusEyewear from "./PhallusEyewear";
 import PhallusHead from "./PhallusHead";
 import SignOut from "./SignOut";
 import Uncheck from "./Uncheck";
+import ZoWhite from "./ZoWhite";
 
 export {
   AngleDown,
@@ -24,4 +25,5 @@ export {
   PhallusHead,
   SignOut,
   Uncheck,
+  ZoWhite,
 };
