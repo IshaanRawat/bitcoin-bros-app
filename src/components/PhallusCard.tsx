@@ -1,6 +1,6 @@
 import {
+  AngleDown,
   Cross,
-  Download,
   Emoji,
   PhallusDress,
   PhallusEyewear,
@@ -206,19 +206,19 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
               className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-center"
               onClick={download.bind(null, "gif")}
             >
-              <span>Download GIF</span>
+              <span>Download Phallus GIF</span>
             </button>
             <button
               className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-center"
               onClick={download.bind(null, "png")}
             >
-              <span>Download PNG</span>
+              <span>Download Phallus PNG</span>
             </button>
             <button
               className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-center"
               onClick={download.bind(null, "mp4")}
             >
-              <span>Download MP4</span>
+              <span>Download Phallus MP4</span>
             </button>
           </div>
         )}
@@ -236,7 +236,7 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
             onClick={setDownloadOptionsVisible.bind(null, true)}
           >
             <span>Download</span>
-            <Download fill="#202020" />
+            <AngleDown fill="#202020" />
           </button>
         )}
       </div>
