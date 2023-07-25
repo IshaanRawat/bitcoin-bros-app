@@ -197,7 +197,7 @@ const PhallusCard: React.FC<PhallusCardProps> = ({ phallusId }) => {
         {isDownloadOptionsVisible && (
           <div className="absolute bottom-[61px] left-0 right-0 flex flex-col divide-y divide-z-black">
             <button
-              className="px-12 flex-shrink-0 w-full bg-z-neon py-4 text-lg flex items-center justify-center"
+              className="px-12 flex-shrink-0 w-full bg-z-white py-4 text-lg flex items-center justify-center"
               onClick={downloadCard}
             >
               <span>Download Card</span>
