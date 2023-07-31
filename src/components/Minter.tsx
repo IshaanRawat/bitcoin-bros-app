@@ -68,6 +68,10 @@ const Minter: React.FC<MinterProps> = ({ mintStatus, refetchMintStatus }) => {
     }
   };
 
+  const openMagicEden = () => {
+    window.open("https://magiceden.io/ordinals/marketplace/bip-666", "_blank");
+  };
+
   const hasBalance = useMemo(() => {
     if (isValidObject(utxos)) {
       const _utxos = utxos.results || [];
@@ -102,7 +106,7 @@ const Minter: React.FC<MinterProps> = ({ mintStatus, refetchMintStatus }) => {
           type="video/mp4"
         />
       </video>
-      {phallus?.supply_left > 0 ? (
+      {/* {phallus?.supply_left > 0 ? (
         <div className="flex flex-col items-stretch p-4 space-y-1">
           <div className="flex items-center justify-between pb-3">
             <span className="text-xl">Free Mint</span>
@@ -164,13 +168,20 @@ const Minter: React.FC<MinterProps> = ({ mintStatus, refetchMintStatus }) => {
               : "Mint Phallus"}
           </Button>
         </div>
-      ) : (
-        <div className="flex flex-col items-stretch p-4 space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-xl">Sold Out</span>
-          </div>
+      ) : ( */}
+      <div className="flex flex-col items-stretch p-4 space-y-4">
+        <div className="flex items-center justify-between">
+          <span className="text-xl">Sold Out</span>
+          <span className="text-xl">666/666</span>
         </div>
-      )}
+        <Button
+          imageSrc="https://static.cdn.zo.xyz/web-media/bitcoin-bros/magiceden.svg"
+          onClick={openMagicEden}
+        >
+          Buy on Magic Eden
+        </Button>
+      </div>
+      {/* )} */}
     </article>
   );
 };
