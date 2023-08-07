@@ -30,27 +30,6 @@ const Home: NextPage = () => {
 
   return (
     <Page>
-      <div className="w-full flex flex-col lg:flex-row items-center justify-center h-auto relative space-y-2 lg:space-x-8 lg:space-y-0 p-4 bg-[#ff9000]">
-        <div className="flex items-center space-x-4">
-          <Image
-            src="https://static.cdn.zo.xyz/web-media/bitcoin-bros/phallus.svg"
-            width={24}
-            height={24}
-            alt="bitcoin"
-          />
-          <span className="text-zinc-900 text-xl font-bold">
-            BIP-666 Mint is LIVE
-          </span>
-        </div>
-        <div className="flex items-center space-x-4">
-          <button
-            className="bg-zinc-100 text-zinc-50 py-2 px-4 text-lg bg-zinc-900 2xl:py-3 2xl:px-4 flex items-center disabled:cursor-not-allowed disabled:opacity-50 space-x-4"
-            onClick={openPhallus}
-          >
-            Mint Now
-          </button>
-        </div>
-      </div>
       <div className="lg:px-4">
         <Header />
       </div>
