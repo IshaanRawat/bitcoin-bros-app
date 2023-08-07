@@ -7,6 +7,7 @@ import {
   Step,
   TwitterPledge,
 } from "@/components";
+import Button from "@/components/Button";
 import pledges from "@/data/pledges.json";
 import { useAuth, useTwitter, useWhitelist } from "@/hooks";
 import { randomTweetMessage } from "@/utils/tweet";
@@ -24,8 +25,8 @@ const Home: NextPage = () => {
 
   const { steps, twitterProfile, refetch } = useWhitelist("BROS");
 
-  const openPhallus = () => {
-    router.push("/bip-666");
+  const openOrdinal = () => {
+    window.open(`https://magiceden.io/ordinals/marketplace/bip-666`, "_blank");
   };
 
   return (
@@ -199,28 +200,19 @@ const Home: NextPage = () => {
                     )}
                   </Step>
 
-                  {pledges.map((pledge, index) => (
-                    <Step
-                      state={steps.isTwitterConnected ? "active" : "disabled"}
-                      key={pledge.id}
-                    >
-                      <div className="flex flex-col">
-                        <h2 className="font-bold text-xl lg:text-2xl text-zinc-100">
-                          Pledge #{index + 1}
-                        </h2>
-                        <TwitterPledge pledge={pledge} />
-                      </div>
-                    </Step>
-                  ))}
                   <Step
                     state={steps.isTwitterConnected ? "active" : "disabled"}
                   >
                     <div className="flex flex-col">
-                      <h2 className="font-bold text-xl lg:text-2xl text-zinc-100">
-                        More Pledges coming...
-                        <br />
-                        Stay Tuned.
+                      <h2 className="font-bold text-xl lg:text-2xl text-zinc-100 mb-4">
+                        Hold a Phallus to get a whitelist.
                       </h2>
+                      <Button
+                        imageSrc="https://static.cdn.zo.xyz/web-media/bitcoin-bros/magiceden.svg"
+                        onClick={openOrdinal}
+                      >
+                        BIP666 on Magic Eden
+                      </Button>
                     </div>
                   </Step>
                 </div>
